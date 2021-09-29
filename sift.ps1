@@ -17,7 +17,7 @@
 .PARAMETER filepath
     C:\path\to\file.pdf
 .EXAMPLE
-    neo.ps1 -ipaddress 8.8.8.8 -ipservices
+    sift.ps1 -ipaddress 8.8.8.8 -ipservices
 .NOTES
     Author: scrawladmin
     Date:   9-26-2021   
