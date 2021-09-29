@@ -18,7 +18,6 @@ Function Ping-Flood {
     Process {
         If ($psSeven ) {
             $totalLatencyarray = @()
-            Write-Log "Ping-Flood"
             while ($i -lt $pingcount) {
                 $pingtime = Test-Connection $ipaddress -Count 1 -ea SilentlyContinue
                 Start-Sleep -Milliseconds $pingpause
