@@ -1,47 +1,63 @@
 Function Ping-Flood {
-    # -ping
-    Param ($ipaddress) 
-    If ($psSeven ) {
+    [cmdletbinding()]
+    [OutputType("ping")]
+    Param (
+        [parameter(Position = 0,
+            Mandatory,
+            HelpMessage = "Enter an IPV4 address to send Ping Flood",
+            ValueFromPipeline,
+            ValueFromPipelineByPropertyName)]
+        [ValidateNotNullOrEmpty()]
+        [ValidatePattern("^([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3}$")]    
+        $ipaddress
+    ) 
+    Begin {
         $totalLatencyarray = @()
         Write-Log "Ping-Flood"
-        while ($i -lt $pingcount) {
-            $pingtime = Test-Connection $ipaddress -Count 1 -ea SilentlyContinue
-            Start-Sleep -Milliseconds $pingpause
-            If ($pingtime.Status -eq "Success") {
-                $successPing++
-                $totalLatencyarray += $pingtime.Latency
-                $totalLatency = $pingtime.Latency + $totalLatency
-            }
-            Else {
-                $totalloss++
-            }
-            $i++
-        }
     }
-    ElseIf (!$psSeven) {
-        $global:ProgressPreference = "SilentlyContinue"
-        $totalLatencyarray = @()
-        [string]$computername = $ipaddress
-        while ($i -le $pingcount) {
-            Write-verbose "Test-Connection"
-            $pingtime = Test-Connection $computername -Count 1 -ea SilentlyContinue
-            start-sleep -Milliseconds $pingpause
-            If ($($pingtime.ResponseTime)) {
-                Write-verbose "Success"
-                $rtt = $($pingtime.ResponseTime)
-                $totalLatency = $rtt + $totalLatency
-                $totalLatencyarray += $rtt
+    Process {
+        If ($psSeven ) {
+            $totalLatencyarray = @()
+            Write-Log "Ping-Flood"
+            while ($i -lt $pingcount) {
+                $pingtime = Test-Connection $ipaddress -Count 1 -ea SilentlyContinue
+                Start-Sleep -Milliseconds $pingpause
+                If ($pingtime.Status -eq "Success") {
+                    $successPing++
+                    $totalLatencyarray += $pingtime.Latency
+                    $totalLatency = $pingtime.Latency + $totalLatency
+                }
+                Else {
+                    $totalloss++
+                }
+                $i++
             }
-            Else{
-                Write-verbose "loss"
-                $totalLatencyarray += 0
-                $totalloss++
-            }
-            $i++
+        }
+        ElseIf (!$psSeven) {
+            $global:ProgressPreference = "SilentlyContinue"
+            while ($i -le $pingcount) {
+                Write-verbose "Test-Connection"
+                $pingtime = Test-Connection $ipaddress -Count 1 -ea SilentlyContinue
+                start-sleep -Milliseconds $pingpause
+                If ($($pingtime.ResponseTime)) {
+                    Write-verbose "Success"
+                    $rtt = $($pingtime.ResponseTime)
+                    $totalLatency = $rtt + $totalLatency
+                    $totalLatencyarray += $rtt
+                }
+                Else {
+                    Write-verbose "loss"
+                    $totalLatencyarray += 0
+                    $totalloss++
+                }
+                $i++
 
+            }
         }
     }
-    Submit-Ping
+    End {
+        Submit-Ping
+    }
 }
 Function Submit-Ping {
     write-log "Function Submit-Ping"
@@ -69,5 +85,6 @@ Function Submit-Ping {
     $totalLatency = $totalLatency / $pingcount
     $totalAvg = [math]::Round($totalAvg)
     $totals = @("Latency = Avg: $totalAvg Max: $totalmax Min: $totalmin Loss = $loss%") 
+    Write-log "$totals"
     show-graph -datapoints $totalLatencyarray -YAxisTitle "ms" -XAxistitle "Ping" -GraphTitle "Network Latency" -Type Scatter
 }
