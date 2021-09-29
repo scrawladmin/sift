@@ -17,7 +17,13 @@
 .PARAMETER filepath
     C:\path\to\file.pdf
 .EXAMPLE
-    sift.ps1 -ipaddress 8.8.8.8 -ipservices
+    sift -ipaddress 8.8.8.8 -ipservices
+.EXAMPLE
+    sift -target 8.8.8.8 -traceroute
+.EXAMPLE
+    sift -url http://8.8.8.8:35215/bin.sh -urlinfo
+.EXAMPLE
+    sift -fqdn gooogle.com -fqdnblacklist
 .NOTES
     Author: scrawladmin
     Date:   9-26-2021   
