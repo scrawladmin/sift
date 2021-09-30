@@ -55,7 +55,7 @@ Function Get-neuIPBlocklist {
                                         PSTypeName = "Neutrino"
                                     }
                                     ForEach ($property in $properties) {
-                                        If ($t."$property" -like $True) {
+                                        If ("$property") {
                                             $n = $property + ": " + $t."$property" 
                                             $table.Add($property, $t."$property")
                                             Write-log " [Neutrino] $n"
