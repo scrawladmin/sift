@@ -214,18 +214,18 @@ Param(
 
     [Parameter(Mandatory = $true, ParameterSetName = "otx-domain", Position = 0)]
     [switch]
-    $fqdnpulse,
+    $fqdnpulse
 
-    [Parameter(Mandatory = $false, ParameterSetName = "fraudguard-iprep", Position = 2)]
-    [Parameter(Mandatory = $false, ParameterSetName = "ipstack-iplookup", Position = 2)]
-    [Parameter(Mandatory = $false, ParameterSetName = "neutrino-ipblock", Position = 2)]
-    [Parameter(Mandatory = $false, ParameterSetName = "neutrino-ipprobe", Position = 2)]
-    [Parameter(Mandatory = $false, ParameterSetName = "neutrino-hostrep", Position = 2)]
-    [Parameter(Mandatory = $false, ParameterSetName = "neutrinohostrep1", Position = 2)]
-    [Parameter(Mandatory = $false, ParameterSetName = "neutrino-hostrep2", Position = 2)]
-    [Parameter(Mandatory = $false, ParameterSetName = "neutrino-ipinfo", Position = 2)]
-    [switch]
-    $raw
+    # [Parameter(Mandatory = $false, ParameterSetName = "fraudguard-iprep", Position = 2)]
+    # [Parameter(Mandatory = $false, ParameterSetName = "ipstack-iplookup", Position = 2)]
+    # [Parameter(Mandatory = $false, ParameterSetName = "neutrino-ipblock", Position = 2)]
+    # [Parameter(Mandatory = $false, ParameterSetName = "neutrino-ipprobe", Position = 2)]
+    # [Parameter(Mandatory = $false, ParameterSetName = "neutrino-hostrep", Position = 2)]
+    # [Parameter(Mandatory = $false, ParameterSetName = "neutrinohostrep1", Position = 2)]
+    # [Parameter(Mandatory = $false, ParameterSetName = "neutrino-hostrep2", Position = 2)]
+    # [Parameter(Mandatory = $false, ParameterSetName = "neutrino-ipinfo", Position = 2)]
+    # [switch]
+    # $raw
 )
 
 $script:currentdir = $PSScriptRoot
