@@ -77,9 +77,9 @@ Param(
     # [string[]]
     # $email,
 
-    [Parameter(Mandatory = $true, ParameterSetName = "neutrino-html", Position = 0)]
-    [string[]]
-    $html,
+    # [Parameter(Mandatory = $true, ParameterSetName = "neutrino-html", Position = 0)]
+    # [string[]]
+    # $html,
 
     [Parameter(Mandatory = $true, ParameterSetName = "virustotal-filereport", Position = 0)]
     [string[]]
@@ -116,9 +116,9 @@ Param(
     # [switch]
     # $emailverify,
 
-    [Parameter(Mandatory = $true, ParameterSetName = "neutrino-html", Position = 1)]
-    [switch]
-    $htmlclean,
+    # [Parameter(Mandatory = $true, ParameterSetName = "neutrino-html", Position = 1)]
+    # [switch]
+    # $htmlclean,
 
     [Parameter(Mandatory = $true, ParameterSetName = "mtr", Position = 1)]
     [switch]
@@ -251,9 +251,9 @@ ElseIf ($url) {
 ElseIf ($email) {
     New-Request $email
 }
-ElseIf ($html) {
-    New-Request $html
-}
+# ElseIf ($html) {
+#     New-Request $html
+# }
 ElseIf ($target) {
     New-Request $target
 }

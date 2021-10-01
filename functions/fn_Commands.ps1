@@ -29,9 +29,9 @@ Function New-Request {
     If ([switch]$emailverify) {
         Get-neuEmailverify $object
     }
-    If ([switch]$htmlclean) {
-        Get-neuHTMLclean $object
-    }
+    # If ([switch]$htmlclean) {
+    #     Get-neuHTMLclean $object
+    # }
     If ([switch]$traceroute) {
         Test-MTR $target ; ; Start-mtr $target
     }
