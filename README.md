@@ -4,7 +4,7 @@ NAME
 
 SYNOPSIS
     
-    PowerShell script to utilize 3rd party APIs and research IPs,URLs,etc...
+    PowerShell script to utilize 3rd party APIs and research IPs,URLs, and Domains
 
 
 SYNTAX
