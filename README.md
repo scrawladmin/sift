@@ -1,4 +1,3 @@
-
 NAME
     
     sift
@@ -88,3 +87,10 @@ REMARKS
     For more information, type: "get-help sift -detailed".
     For technical information, type: "get-help sift -full".
     For online help, type: "get-help sift -online"
+    
+   
+   
+INSTALL   
+
+   1. Download, Unzip, Add to Path.
+   2. Add API info to fn_settings.ps1
