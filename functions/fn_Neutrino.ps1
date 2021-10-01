@@ -17,6 +17,7 @@ Function Get-neuIPBlocklist {
 
     begin {
         write-log "Function: $($MyInvocation.Mycommand)"
+        $apiname = 'Neutrino'
         $params = @()
     }
     Process {
@@ -39,7 +40,7 @@ Function Get-neuIPBlocklist {
                                 Write-log "$($_.Exception.Message)" 
                             }
                             if ($response) {
-                                $name = 'Neutrino' | Trace-word -words 'Neutrino'
+                                $apiname | Trace-word -words 'Neutrino'
                                 $t = $response.Content | ConvertFrom-Json   
                                 # $t = $response.Content
                                 if ([switch]$raw) {

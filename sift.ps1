@@ -12,8 +12,6 @@
     google.com
 .PARAMETER url
     https://bit.ly/somesketchurl
-.PARAMETER email
-    neo@aol.com
 .PARAMETER filepath
     C:\path\to\file.pdf
 .EXAMPLE
@@ -44,6 +42,7 @@ Param(
     [Parameter(Mandatory = $true, ParameterSetName = "shodan-ipservices", Position = 0)]
     [Parameter(Mandatory = $true, ParameterSetName = "MXtoolbox-ptr", Position = 0)]
     [Parameter(Mandatory = $true, ParameterSetName = "hetrixtools-IPblacklist", Position = 0)]
+    [Parameter(Mandatory = $true, ParameterSetName = "otx", Position = 0)]
     [ipaddress[]]
     $ipaddress,
 
@@ -57,6 +56,7 @@ Param(
     [Parameter(Mandatory = $true, ParameterSetName = "MXtoolbox-soa", Position = 0)]
     [Parameter(Mandatory = $true, ParameterSetName = "MXtoolbox-blacklist", Position = 0)]
     [Parameter(Mandatory = $true, ParameterSetName = "hetrixtools-fqdnblacklist", Position = 0)]
+    [Parameter(Mandatory = $true, ParameterSetName = "otx-domain", Position = 0)]
     [string[]]
     $fqdn,
 
@@ -71,10 +71,11 @@ Param(
     [string[]]
     $url,
 
-    [Parameter(Mandatory = $true, ParameterSetName = "neutrino-urlemail", Position = 0)]
-    [Parameter(Mandatory = $true, ParameterSetName = "neutrino-urlverify", Position = 0)]
-    [string[]]
-    $email,
+    #  ! HIT THE MAX AMOUNT OF OF PARAMETERSETNAMEs !
+    # [Parameter(Mandatory = $true, ParameterSetName = "neutrino-urlemail", Position = 0)]
+    # [Parameter(Mandatory = $true, ParameterSetName = "neutrino-urlverify", Position = 0)]
+    # [string[]]
+    # $email,
 
     [Parameter(Mandatory = $true, ParameterSetName = "neutrino-html", Position = 0)]
     [string[]]
@@ -106,13 +107,14 @@ Param(
     [switch]
     $urlinfo,
 
-    [Parameter(Mandatory = $true, ParameterSetName = "neutrino-urlemail", Position = 1)]
-    [switch]
-    $emailvalidate,
+    #  ! HIT THE MAX AMOUNT OF OF PARAMETERSETNAMEs !
+    # [Parameter(Mandatory = $true, ParameterSetName = "neutrino-urlemail", Position = 1)]
+    # [switch]
+    # $emailvalidate,
 
-    [Parameter(Mandatory = $true, ParameterSetName = "neutrino-urlverify", Position = 1)]
-    [switch]
-    $emailverify,
+    # [Parameter(Mandatory = $true, ParameterSetName = "neutrino-urlverify", Position = 1)]
+    # [switch]
+    # $emailverify,
 
     [Parameter(Mandatory = $true, ParameterSetName = "neutrino-html", Position = 1)]
     [switch]
@@ -206,6 +208,13 @@ Param(
     [switch]
     $urlquery,
 
+    [Parameter(Mandatory = $true, ParameterSetName = "otx", Position = 1)]
+    [switch]
+    $ippulse,
+
+    [Parameter(Mandatory = $true, ParameterSetName = "otx-domain", Position = 0)]
+    [switch]
+    $fqdnpulse,
 
     [Parameter(Mandatory = $false, ParameterSetName = "fraudguard-iprep", Position = 2)]
     [Parameter(Mandatory = $false, ParameterSetName = "ipstack-iplookup", Position = 2)]

@@ -80,6 +80,7 @@ Function Get-hetrixDomainblacklist {
     )
     begin {
         write-log "Function: $($MyInvocation.Mycommand)"
+        $apiname = 'HETRIXTOOLS'
     }
     Process {
         if ($hetrixapikey) {
@@ -93,7 +94,7 @@ Function Get-hetrixDomainblacklist {
                 }
                 if ($response) {
                     $t = $response.Content | ConvertFrom-Json
-                    $name = 'HETRIXTOOLS' | Trace-word -words 'HETRIXTOOLS'
+                    $apiname | Trace-word -words 'HETRIXTOOLS'
                     if ([switch]$raw) {
                         $res
                     }
@@ -101,12 +102,10 @@ Function Get-hetrixDomainblacklist {
                         $properties = ($t | Get-Member -MemberType Properties).Name
                         [hashtable]$table = @{}
                         ForEach ($property in $properties) {
-                            If ("$property" -ne "blacklisted_on") {
-                                If ($t."$property") {
-                                    $n = $property + ": " + $t."$property" 
-                                    $table.Add($property, $t."$property")
-                                    Write-log " [HETRIXTOOLS] $n"
-                                }
+                            If ("$property" -ne 'links') {
+                                $n = $property + ": " + $t."$property" 
+                                $table.Add($property, $t."$property")
+                                Write-log " [HETRIXTOOLS] $n"
                             }
                         }
                     }
@@ -119,10 +118,14 @@ Function Get-hetrixDomainblacklist {
         }
     }
     End {
-        $htable = New-Object -TypeName psobject -Property $table
-        $htable
-        Write-host "BLACKLISTED: "
-        $t.blacklisted_on
+        if ($table) {
+            $htable = New-Object -TypeName psobject -Property $table
+            $htable
+        }
+        if ($t.blacklisted_on) {
+            Write-host "BLACKLISTED: "
+            $t.blacklisted_on
+        }
         Write-log "Exiting $($MyInvocation.Mycommand)"
     }
 }

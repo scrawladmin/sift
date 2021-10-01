@@ -13,6 +13,7 @@ Function Get-fraudguardiprep {
     )
     Begin {
         write-log "Function: $($MyInvocation.Mycommand)"
+        $apiname = 'FRAUDGUARD'
         if ($fraudguarduser -and $fraudguardpass) {
             $pair = "$($fraudguarduser):$($fraudguardpass)"
             $encodedCreds = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes($pair))
@@ -37,7 +38,7 @@ Function Get-fraudguardiprep {
         }
         if ($response) {
             $t = $response.Content | ConvertFrom-Json
-            $name = 'FRAUDGUARD' | Trace-word -words 'FRAUDGUARD'
+            $apiname | Trace-word -words 'FRAUDGUARD'
             if ([switch]$raw) {
                 $t
             }

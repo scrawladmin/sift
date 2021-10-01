@@ -1,4 +1,4 @@
-# https://www.powershellgallery.com/packages/MxLookup/1.0.0/Content/MxLookup.psm1
+# https://www.powershellgallery.com/packages/MxLookup/1.0.0
 
 Function Connect-MXOnline () {
     [CmdletBinding()]

@@ -1,4 +1,4 @@
-# https://www.powershellgallery.com/packages/Posh-VirusTotal/1.3
+# https://github.com/darkoperator/Posh-VirusTotal
 # 
 function Get-VTFileReport {
     [CmdletBinding(DefaultParameterSetName = 'Direct')]

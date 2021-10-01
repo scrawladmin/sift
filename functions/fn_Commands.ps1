@@ -1,6 +1,13 @@
 Function New-Request {
     Param ($object)
     Write-log "Function New-Request $object"
+    If ([switch]$ippulse) {
+        [string]$ipaddress = $ipaddress
+        Get-ippulse $ipaddress
+    }
+    If ([switch]$fqdnpulse) {
+        Get-fqdnpulse $object
+    }
     If ([switch]$ipprobe) {
         Get-neuIPProbe $object
     }
