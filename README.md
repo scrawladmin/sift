@@ -69,8 +69,6 @@ SYNTAX
 
     sift [-url] <String[]> [-hostrep] [<CommonParameters>]
 
-    sift [-html] <String[]> [-htmlclean] [<CommonParameters>]
-
     sift [-filepath] <String[]> [-filereport] [<CommonParameters>]
 
 
