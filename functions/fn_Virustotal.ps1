@@ -1,5 +1,5 @@
 # https://github.com/darkoperator/Posh-VirusTotal
-# 
+# https://github.com/darkoperator/Posh-VirusTotal/blob/master/LICENSE.txt
 function Get-VTFileReport {
     [CmdletBinding(DefaultParameterSetName = 'Direct')]
     Param
