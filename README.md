@@ -90,5 +90,5 @@ REMARKS
    
 INSTALL   
 
-   1. Download, Unzip, Add to Path.
+   1. Download, Unzip, Add to Path in Powershell User Profile.
    2. Add API info to fn_settings.ps1
