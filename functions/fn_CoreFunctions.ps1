@@ -149,9 +149,6 @@ Function Write-log {
     if ($log) {
         Add-Content $log "[$loggingdate] $logmessage "
     }
-    if ($PSCmdlet.MyInvocation.BoundParameters["Verbose"].IsPresent) {
-        Write-Verbose "$logmessage"
-    }
 }
 
 Function Test-PSversion {

@@ -47,7 +47,7 @@ Function Test-MTR {
 
     [Parameter(ValueFromPipeline)]
     [Alias("s")]
-    [IPAddress]$DNSServer = 8.8.8.8,
+    [IPAddress]$DNSServer,
 	
     [Parameter(ValueFromPipeline)]
     [Alias("f")]
@@ -228,12 +228,14 @@ Function Get-PerHopRTT {
       }
       $PerHopRTTArr += $HopRTT #Add RTT to HopRTT array\
       if ($psSeven) {
-        If (($HopRTT -eq 0) -and ($HopResults.Status -eq 'Success' )) {
+        #If (($HopRTT -eq 0) -and ($HopResults.Status -eq 'Success' )) {
+          If (($HopResults.Status -ne 'Success' ) -or (($HopRTT -eq 0)) ) {
           $x = $x + 1
         }
       }
       else {
-        If ((!$HopRTT) -or ($HopRTT -eq 0)) {
+       # If ((!$HopRTT) -or ($HopRTT -eq 0)) {
+          If ((!$HopRTT)) {
           $x = $x + 1
         }
       }
