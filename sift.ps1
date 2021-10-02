@@ -232,10 +232,11 @@ $script:currentdir = $PSScriptRoot
 $script:loggingDate = get-date -Format MM-dd-yyyy-hh:mm:ss
 $script:logDate = Get-Date -Format MM-dd-yyyy
 
-Get-ChildItem -Path $currentdir\functions -Filter *.ps1 | ForEach-Object { . $_.FullName }
+Get-ChildItem -Path $currentdir\functions -Filter *.ps1 | % { . $_.FullName }
 If (!(Test-Path $currentdir\log)) { 
-    mkdir $currentdir\log >$null 2>&1 
+    New-Item -ItemType Directory -Path $currentdir -Name log -ErrorAction SilentlyContinue -InformationAction SilentlyContinue
 }
+
 Set-Console  >$null 2>&1
 Test-PSversion
 Set-Settings
