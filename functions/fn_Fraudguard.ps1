@@ -61,7 +61,7 @@ Function Get-fraudguardiprep {
     }
     End {
         if ($table) {
-            $htable = New-Object -TypeName psobject -Property $table
+            $global:htable = New-Object -TypeName psobject -Property $table
             $htable
         }
         Write-log "Exiting $($MyInvocation.Mycommand)"

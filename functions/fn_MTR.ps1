@@ -53,7 +53,7 @@ Function Test-MTR {
     [Alias("f")]
     [String]$Filename = "Traceroute_$Target"
   )
-  Write-log "Function Test-MTR"
+  Write-log "Function: $($MyInvocation.Mycommand)"
 }
 Function Set-Variables {
   Write-log "Function: $($MyInvocation.Mycommand)"
@@ -88,8 +88,15 @@ Function Set-WindowSize {
 
 Function Get-Traceroute {
   Write-Log "Function: $($MyInvocation.Mycommand)"
-  $TraceResults = Test-NetConnection $Target -InformationLevel Detailed -TraceRoute | Select -ExpandProperty TraceRoute
-  
+  # $Global:ProgressPreference = 'SilentlyContinue'
+  if ($psSeven) {
+    $TraceResults = (Test-Connection $Target -Traceroute -IPv4)
+    $TraceResults = $TraceResults | % { if ( $_.ping -eq 1 ) { $_ } }
+    $TraceResults = $TraceResults.Hostname
+  }
+  Else {
+    $TraceResults = Test-NetConnection $Target -InformationLevel Detailed -TraceRoute | Select -ExpandProperty TraceRoute
+  }
 } #End Get-Traceroute
 
 Function Resolve-ASN {
@@ -105,19 +112,16 @@ Function Resolve-ASN {
   Else {
     $HopASNRecord = $null
   }
-
   If ($HopASNRecord.Strings -AND $HopASNRecord.Strings.GetType().IsArray) {
     #Check for array;
     $HopASN = "AS" + $HopASNRecord.Strings[0].Split('|').Trim()[0]
     Write-Verbose "Object found $HopASN"
   }
-
   ElseIf ($HopASNRecord.Strings -AND $HopASNRecord.Strings.GetType().FullName -like "System.String") {
     #Check for string; normal case.
     $HopASN = "AS" + $HopASNRecord.Strings[0].Split('|').Trim()[0]
     Write-Verbose "ASN found $HopASN"
   }
-
   Else {
     $HopASN = "-"
   }
@@ -126,9 +130,7 @@ Function Resolve-ASN {
 Function Resolve-ASNOwner {
   Write-Log "Function: $($MyInvocation.Mycommand)"
   If ($HopASN -notlike "-") {  
-    $IndexNo = $ASNOwnerArr.ASN.IndexOf($HopASN)
-    Write-Verbose "Current object: $ASNOwnerObj"
-  
+    $IndexNo = $ASNOwnerArr.ASN.IndexOf($HopASN)  
     If (!($ASNOwnerArr.ASN.Contains($HopASN)) -OR ($ASNOwnerArr."ASN Owner"[$IndexNo].Contains('-'))) {
       #Keep "ASNOwnerArr.ASN" in double quotes so it will be treated as a string and not an object
       Write-Verbose "ASN $HopASN not previously resolved; performing lookup" #Check the previous lookups before running this unnecessarily
@@ -172,19 +174,16 @@ Function Resolve-DNS {
     $z++ #Increment the count for the progress bar
     $HopNameArr = Resolve-DnsName -Server $DNSServer -Type PTR $Hop -ErrorAction SilentlyContinue | Select NameHost
     Write-Verbose "Hop = $Hop"
-
     If ($HopNameArr.NameHost -AND $HopNameArr.NameHost.GetType().IsArray) {
       #Check for array first; sometimes resolvers are stupid and return NS records with the PTR in an array.
       $HopName | Add-Member -MemberType NoteProperty -Name NameHost -Value $HopNameArr.NameHost[0] #If Resolve-DNS brings back an array containing NS records, select just the PTR
       Write-Verbose "Object found $HopName"
     }
-
     ElseIf ($HopNameArr.NameHost -AND $HopNameArr.NameHost.GetType().FullName -like "System.String") {
       #Normal case. One PTR record. Will break up an array of multiple PTRs separated with a comma.
       $HopName | Add-Member -MemberType NoteProperty -Name NameHost -Value $HopNameArr.NameHost.Split(',')[0].Trim() #In the case of multiple PTRs select the first one
       Write-Verbose "String found $HopName"
     }
-
     ElseIf ($HopNameArr.NameHost -like $null) {
       #Check for null last because when an array is returned with PTR and NS records, it contains null values.
       $HopName | Add-Member -MemberType NoteProperty -Name NameHost -Value $Hop #If there's no PTR record, set name equal to IP
@@ -203,6 +202,7 @@ Function Get-PerHopRTT {
   Write-Log "Function: $($MyInvocation.Mycommand)"
   $PerHopRTTArr = @() #Store all RTT values per hop
   $SAPSObj = $null #Clear the array each cycle
+  $HopRTT = $null
   $SendICMP = New-Object System.Net.NetworkInformation.Ping
   $i++ #Advance the count
   $x = 0 #Reset x for the next hop count. X tracks packet loss percentage.
@@ -215,40 +215,58 @@ Function Get-PerHopRTT {
       if ($psSeven) {
         $HopResults = Test-Connection $Hop -Ping -Count 1 -TimeoutSeconds 1 -Bytes 32 
         # $HopRTT = $HopResults.RoundtripTime
-        $HopRTT = $HopResults.Latency
+        $HopRTT = $HopResults.Latency 
       }
       Else {
         try {
-          $HopResults = Test-Connection $hop -Count 1 -EA SilentlyContinue
+          $HopResults = Test-Connection $Hop -Count 1 -EA SilentlyContinue -BufferSize 32 -Delay 1
         }
         Catch {
           $_.Exception
         }
         $HopRTT = $HopResults.ResponseTime
       }
+      $sent++
       $PerHopRTTArr += $HopRTT #Add RTT to HopRTT array\
       if ($psSeven) {
         #If (($HopRTT -eq 0) -and ($HopResults.Status -eq 'Success' )) {
-          If (($HopResults.Status -ne 'Success' ) -or (($HopRTT -eq 0)) ) {
-          $x = $x + 1
+        If (($HopResults.Status -ne 'Success' ) -and (($HopRTT -eq 0)) ) {
+          $x++
+        }
+        ElseIf (($HopResults.Status -eq 'Success' )) {
+          $received++
         }
       }
       else {
-       # If ((!$HopRTT) -or ($HopRTT -eq 0)) {
-          If ((!$HopRTT)) {
-          $x = $x + 1
+        # If ((!$HopRTT) -or ($HopRTT -eq 0)) {
+        If (!$HopResults) {
+          $x++
+        }
+        Else {
+          $received++
         }
       }
       Write-Progress -Activity "Testing Packet Loss to Hop #$z of $($TraceResults.length)" -Status "Sending ICMP Packet $y of $PingCycles to $Hop - Result: $HopRTT ms" -PercentComplete ($y / $PingCycles * 100)
     } #End for loop
-    $PerHopRTTArr = $PerHopRTTArr | Where-Object { $_ -gt 0 } #Remove zeros from the array
+    # $PerHopRTTArr = $PerHopRTTArr | Where-Object { $_ -gt 0 } #Remove zeros from the array
     $HopRTTMin = "{0:N0}" -f ($PerHopRTTArr | Measure-Object -Minimum).Minimum
     $HopRTTMax = "{0:N0}" -f ($PerHopRTTArr | Measure-Object -Maximum).Maximum
     $HopRTTAvg = "{0:N0}" -f ($PerHopRTTArr | Measure-Object -Average).Average
+    $HopRTTLast = "{0:N0}" -f ($PerHopRTTArr[$PerHopRTTArr.Count - 1])
     $HopLoss = "{0:N1}" -f (($x / $PingCycles) * 100) + "`%"
     $HopText = [string]$HopRTT + "ms"
-    If (($HopLoss -like "*0*") -and ($HopResults.Success -eq 'Success' )) {
-      #100% loss, but name resolves
+    if ($psSeven) {
+      If (($HopResults.Latency -eq 0) -and ($HopResults.Status -ne 'Success' )) {
+        #100% loss, but name resolves
+        $HopResults = $null
+        $HopRTT = $null
+        $HopText = $null
+        $HopRTTAvg = "-"
+        $HopRTTMin = "-"
+        $HopRTTMax = "-"
+      }
+    }
+    Elseif ( $null -eq ($HopResults.ResponseTime)) {
       $HopResults = $null
       $HopRTT = $null
       $HopText = $null
@@ -266,39 +284,52 @@ Function Get-PerHopRTT {
     $HopRTTAvg = "-"
     $HopRTTMin = "-"
     $HopRTTMax = "-"
+    $HopRTTLast = '-'
   } #End TimedOut condition
+  Write-log "RTTmin = $HopRTTMin"
+  Write-log "HopRTTMax = $HopRTTMax"
+  Write-log "HopRTTAvg = $HopRTTAvg"
   $SAPSObj = [PSCustomObject]@{
-    "Hop"       = $i
-    "Hop Name"  = $HopName.NameHost
-    "ASN"       = $HopASN
-    "ASN Owner" = $HopASNOwner
-    "`% Loss"   = $HopLoss
-    "Hop IP"    = $Hop
-    "Avg RTT"   = $HopRTTAvg
-    "Min RTT"   = $HopRTTMin
-    "Max RTT"   = $HopRTTMax
+    "hostname" = $HopName.NameHost
+    "Nr"       = $i
+    "Loss`% "  = $HopLoss
+    # "Count"  = $PingCycles
+    "Sent"     = $sent
+    "Recv"     = $received
+    "Best"     = $HopRTTMin
+    # "ASN"       = $HopASN
+    # "ASN Owner" = $HopASNOwner
+    # "Hop IP"    = $Hop
+    "Avrg"     = $HopRTTAvg
+    "Worst"    = $HopRTTMax
+    "Last"     = $HopRTTLast
   }
   $PerTraceArr += $SAPSObj #Add the object to the array
+  $received = $null
+  $sent = $null
 } #End Get-PerHopRTT
 Function Show-MTRResults {
   Write-Log "Function: $($MyInvocation.Mycommand)"
   $PerTraceArr | Format-Table -Autosize
+  # $PerTraceArr | Format-Table -Autosize | Tee-Object -FilePath $log -Append
   $PerTraceArr | Format-Table -Autosize | Out-File $log -encoding UTF8 -Append
 }
 Function Start-mtr {
   param ($target)
   Write-Log "Function: $($MyInvocation.Mycommand)"
-
-  . Test-MTR  $target
-  . Set-Variables
-  . Set-WindowSize
-  . Get-Traceroute
-  ForEach ($Hop in $TraceResults) {
-    . Resolve-ASN
-    . Resolve-ASNOwner
-    . Resolve-DNS
-    . Get-PerHopRTT
+  $runtime = Measure-Command {
+    . Test-MTR  $target
+    . Set-Variables
+    . Set-WindowSize
+    . Get-Traceroute
+    ForEach ($Hop in $TraceResults) {
+      # . Resolve-ASN
+      # . Resolve-ASNOwner
+      . Resolve-DNS
+      . Get-PerHopRTT
+    }
   }
   $name = 'MTR' | Trace-word -words 'MTR'
   . Show-MTRResults
+  write-log "MTR Runtime: $runtime"
 }
