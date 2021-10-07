@@ -28,6 +28,7 @@ Function Get-shodanip {
             }
             catch {
                 Write-log "$($_.Exception.Message)" 
+                return
             }
         }
         If ($response) {
