@@ -38,6 +38,7 @@ Function Get-neuIPBlocklist {
                             }
                             Catch {
                                 Write-log "$($_.Exception.Message)" 
+                                return
                             }
                             if ($response) {
                                 $apiname | Trace-word -words 'Neutrino'

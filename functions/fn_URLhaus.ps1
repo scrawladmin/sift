@@ -22,6 +22,7 @@ Function Get-URLhausQuery {
             }
             Catch {
                 write-log "$($_.Exception.Message)"
+                return
             }
             if ($res) {
                 $t = $res.content | ConvertFrom-Json

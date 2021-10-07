@@ -25,7 +25,7 @@ Function Get-WhoIs {
     )
 
     Begin {
-        Write-Verbose "Starting $($MyInvocation.Mycommand)"
+        Write-log "Starting $($MyInvocation.Mycommand)"
         $baseURL = 'http://whois.arin.net/rest'
         #default is XML anyway
         $header = @{"Accept" = "application/xml"}
@@ -33,20 +33,21 @@ Function Get-WhoIs {
     } #begin
 
     Process {
-        Write-Verbose "Getting WhoIs information for $IPAddress"
+        Write-log "Getting WhoIs information for $IPAddress"
         $url = "$baseUrl/ip/$ipaddress"
         Try {
             $r = Invoke-Restmethod $url -Headers $header -ErrorAction stop
-            Write-verbose ($r.net | Out-String)
+            # Write-log ($r.net | Out-String)
             $city = (Invoke-RestMethod $r.net.orgRef.'#text').org.city
         }
         Catch {
             $errMsg = "Sorry. There was an error retrieving WhoIs information for $IPAddress. $($_.exception.message)"
             $host.ui.WriteErrorLine($errMsg)
+            write-log "$($_.exception.message)"
         }
 
         if ($r.net) {
-            Write-Verbose "Creating result"
+            Write-log "Creating result"
             $result = [pscustomobject]@{
                 PSTypeName             = "WhoIsResult"
                 IP                     = $ipaddress
@@ -88,6 +89,6 @@ Function Get-WhoIs {
     } #Process
 
     End {
-        Write-Verbose "Ending $($MyInvocation.Mycommand)"
+        Write-log "Ending $($MyInvocation.Mycommand)"
     } #end
 }

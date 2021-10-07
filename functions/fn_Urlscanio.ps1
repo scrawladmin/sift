@@ -36,6 +36,7 @@ Function Get-urlscanio {
             }
             Catch {
                 Write-log "$($_.Exception.Message)" 
+                return
             }
             if ($response) {
                 $name = 'URLscan.io' | Trace-word -words 'URLscan.io'

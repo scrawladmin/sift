@@ -35,6 +35,7 @@ Function Get-fraudguardiprep {
         }
         Catch {
             Write-log "$($_.Exception.Message)"
+            return
         }
         if ($response) {
             $t = $response.Content | ConvertFrom-Json
