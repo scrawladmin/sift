@@ -114,6 +114,7 @@ Function Get-neuIPProbe {
                         Catch {
                             $($_.ErrorDetails.Message)
                             Write-log "$($_.ErrorDetails.Message)" 
+                            return
                         }
                         if ($response) {
                             $name = 'Neutrino' | Trace-word -words 'Neutrino' 
@@ -193,6 +194,7 @@ Function Get-neuHostRep {
                         }
                         Catch {
                             Write-log "$($_.Exception.Message)" 
+                            return
                         }
                         if ($response) {
                             $response = $response.Content | ConvertFrom-Json
@@ -269,6 +271,7 @@ Function Get-neuIPInfo {
                             }
                             catch {
                                 Write-log "$($_.Exception.Message)" 
+                                return
                             }
                             if ($response) {
                                 If ([switch]$raw) {
@@ -352,6 +355,7 @@ Function Get-neuURLInfo {
                 }
                 Catch {
                     Write-log "$($_.Exception.Message)" 
+                    return
                 }
                 if ($response) {
                     $response = $response.Content | ConvertFrom-Json
@@ -404,6 +408,7 @@ Function Get-neuEmailvalidate {
                         }
                         Catch {
                             Write-log "$($_.Exception.Message)" 
+                            return
                         }
                         if ($response) {
                             $name = 'Neutrino' | Trace-word -words 'Neutrino'
@@ -473,6 +478,7 @@ Function Get-neuHTMLclean {
                         }
                         Catch {
                             Write-log "$($_.Exception.Message)" 
+                            return
                         }
                         if ($response) {
                             $name = 'Neutrino' | Trace-word -words 'Neutrino'
