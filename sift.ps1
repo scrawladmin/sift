@@ -18,6 +18,7 @@
     sift -ipaddress 8.8.8.8 -ipservices
 .EXAMPLE
     sift -target 8.8.8.8 -traceroute
+    sift -target one.one.one.one -traceroute
 .EXAMPLE
     sift -url http://8.8.8.8:35215/bin.sh -urlinfo
 .EXAMPLE
