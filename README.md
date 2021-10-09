@@ -83,6 +83,7 @@ RELATED LINKS
     https://github.com/darkoperator/Posh-VirusTotal
     https://www.powershellgallery.com/packages/MxLookup/1.0.0
     https://www.powershellgallery.com/packages/PSScriptTools/2.9.0/Content/functions%5CGet-WhoIs.ps1
+    https://github.com/PrateekKumarSingh/Graphical
 
 
 REMARKS
