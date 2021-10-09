@@ -53,7 +53,7 @@ Function Get-shodanip {
         if ($table) {
             $htable = New-Object -TypeName psobject -Property $table
         }
-        $htable.data
+        $htable.data | Format-List
         Write-Verbose "Exiting $($MyInvocation.Mycommand)"
     }
 }
