@@ -81,6 +81,8 @@ RELATED LINKS
     https://gist.github.com/tylerapplebaum/dc527a3bd875f11871e2
     https://github.com/darkoperator/Posh-VirusTotal
     https://www.powershellgallery.com/packages/MxLookup/1.0.0
+    https://www.powershellgallery.com/packages/PSScriptTools/2.9.0/Content/functions%5CGet-WhoIs.ps1
+
 
 REMARKS
     
