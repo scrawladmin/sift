@@ -60,7 +60,7 @@ Function Get-WhoIs {
                 Updated                = $r.net.updateDate -as [datetime]
             }
             $results = @()
-            $global:moreinfo = (Invoke-RestMethod $r.net.orgRef.'#text').org
+            $moreinfo = (Invoke-RestMethod $r.net.orgRef.'#text').org
             If ($moreinfo.streetAddress) {
                 $streetsddress = [PSCustomObject]@{
                     streetAddress = $($moreinfo.streetAddress.line."#text")
