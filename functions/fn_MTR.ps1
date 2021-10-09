@@ -3,6 +3,7 @@
 An MTR clone for PowerShell.
 Written by Tyler Applebaum.
 Version 2.0
+# Modified by Scrawladmin
 .LINK
 https://gist.github.com/tylerapplebaum/dc527a3bd875f11871e2
 http://www.team-cymru.org/IP-ASN-mapping.html#dns
