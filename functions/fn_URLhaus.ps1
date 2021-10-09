@@ -51,7 +51,7 @@ Function Get-URLhausQuery {
         if ($table) {
             $htable = New-Object -TypeName psobject -Property $table
         }
-        $htable
+        $htable | Format-List
         If ($t.payloads) {
             $t.payloads
         }
