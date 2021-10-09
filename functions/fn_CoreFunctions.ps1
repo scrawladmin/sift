@@ -261,7 +261,7 @@ Function Trace-Word {
 
 }
 #Trace-Word -content (Get-Content iis.log) -words "IIS", 's', "exe", "10", 'system'
-
+# https://github.com/copdips/PSScripts/blob/master/Text/Select-ColorString.ps1
 function Select-ColorString {
     <#
    .SYNOPSIS
