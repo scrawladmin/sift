@@ -78,6 +78,9 @@ DESCRIPTION
 RELATED LINKS
     
     https://github.com/scrawladmin/sift
+    https://gist.github.com/tylerapplebaum/dc527a3bd875f11871e2
+    https://github.com/darkoperator/Posh-VirusTotal
+    https://www.powershellgallery.com/packages/MxLookup/1.0.0
 
 REMARKS
     
