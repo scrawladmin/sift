@@ -63,7 +63,7 @@ Function Get-fraudguardiprep {
     End {
         if ($table) {
             $htable = New-Object -TypeName psobject -Property $table
-            $htable
+            $htable | Format-List
         }
         Write-log "Exiting $($MyInvocation.Mycommand)"
     }
