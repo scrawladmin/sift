@@ -69,6 +69,7 @@ Function Get-WhoIs {
             If ($moreinfo.comment.line) {
                 $comment = $($moreinfo.comment.line."#text")             
             }
+            $name = 'WHOIS' | Trace-word -words 'WHOIS'
             $results += $result
             $results += $streetsddress
             $results += $moreinfo
