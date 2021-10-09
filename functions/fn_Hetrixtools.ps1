@@ -57,7 +57,7 @@ Function Get-hetrixIPblacklist {
     End {
         if ($table) {
             $htable = New-Object -TypeName psobject -Property $table
-            $htable
+            $htable | Format-List
             if ($($t.blacklisted_on)) {
                 Write-host "BLACKLISTED: "
                 $t.blacklisted_on

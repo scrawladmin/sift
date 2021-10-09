@@ -255,6 +255,10 @@ Function Get-PerHopRTT {
     $HopRTTLast = "{0:N0}" -f ($PerHopRTTArr[$PerHopRTTArr.Count - 1])
     $HopLoss = "{0:N1}" -f (($x / $PingCycles) * 100) + "`%"
     $HopText = [string]$HopRTT + "ms"
+    
+    
+    $stdDev = Get-StandardDeviation $PerHopRTTArr 
+    write-log "stddev $stdDev"
     if ($psSeven) {
       If (($HopResults.Latency -eq 0) -and ($HopResults.Status -ne 'Success' )) {
         #100% loss, but name resolves
@@ -294,15 +298,16 @@ Function Get-PerHopRTT {
     "Nr"       = $i
     "Loss`% "  = $HopLoss
     # "Count"  = $PingCycles
-    "Sent"     = $sent
+    "Snt"     = $sent
     "Recv"     = $received
     "Best"     = $HopRTTMin
     # "ASN"       = $HopASN
     # "ASN Owner" = $HopASNOwner
     # "Hop IP"    = $Hop
-    "Avrg"     = $HopRTTAvg
+    "Avg"     = $HopRTTAvg
     "Worst"    = $HopRTTMax
     "Last"     = $HopRTTLast
+    "stdev"   = [Math]::Round($stdDev,2)
   }
   $PerTraceArr += $SAPSObj #Add the object to the array
   $received = $null

@@ -307,7 +307,7 @@ function Get-VTIPReport {
             }
         }
         $htable = New-Object -TypeName psobject -Property $table
-        $htable
+        $htable | Format-List
         # }
     }
     End {
@@ -660,7 +660,7 @@ function Get-VTURLReport {
                     }
                 }
                 $htable2 = New-Object -TypeName psobject -Property $table2
-                $htable2
+                $htable2  | Format-List
             }
         }
     }

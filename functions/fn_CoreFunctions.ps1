@@ -1,6 +1,6 @@
 Function New-Request {
     Param ($object)
-    Write-log "Function New-Request $object"
+    Write-log "Function: $($MyInvocation.Mycommand) $object"
     If ([switch]$ippulse) {
         [string]$ipaddress = $ipaddress
         Get-ippulse $ipaddress
@@ -484,3 +484,47 @@ function Select-ColorString {
     end {
     }
 }
+<#
+https://www.powershellgallery.com/packages/Formulaic/0.2.1.0/Content/Get-StandardDeviation.ps1
+.Synopsis
+    Gets the standard deviation of a series of numbers
+.Description
+    Gets the standard deviation of a series of numbers
+.Example
+    Get-StandardDeviation 2,4,6,8
+#>
+function Get-StandardDeviation {
+    param(
+        # The series of numbers
+        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true, Position = 0)]
+        [Double[]]
+        $Number
+    )
+    begin {
+        $numberSeries = @()
+    }
+    process {
+        $numberSeries += $number
+    }
+    end {
+        # Start the total at zero
+        $total = 0
+        foreach ($n in $numberSeries) {
+            # Add $n to the total
+            $total += $n
+        }
+        # The average is the total divided by the number of items $($numberSeries.Count)
+        $average = $total / $($numberSeries.Count)
+        $deviationTotal = 0
+        foreach ($n in $NumberSeries) {
+            # Add $n to the total
+            $deviationTotal += [Math]::Pow(($n - $average), 2)
+        }
+        $scriptBlock += 
+        $deviationAverage = $deviationTotal / $($numberSeries.Count)
+        $standardDeviation = [Math]::Sqrt($deviationAverage)
+        $sb = [ScriptBlock]::Create($scriptBlock)        
+        $null = . $sb
+        $standardDeviation
+    }
+} 

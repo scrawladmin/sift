@@ -440,6 +440,7 @@ Function Get-neuEmailverify {
                         }
                         Catch {
                             Write-log "$($_.Exception.Message)" 
+                            return
                         }
                         if ($response) {
                             $name = 'Neutrino' | Trace-word -words 'Neutrino'
