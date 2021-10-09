@@ -10,7 +10,7 @@ Function Set-Settings {
         #                               Max Latency(ms)
         $script:maxlatency              = 120
         #                               MTR DNS Server
-        $script:DNSServer               = 8.8.8.8
+        $script:DNSServer               = 1.1.1.1
         #                               MXtoolbox API key
         $script:MX_API_key              = ""
         #                               Neutrino user
