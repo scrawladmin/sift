@@ -85,6 +85,7 @@ RELATED LINKS
     https://www.powershellgallery.com/packages/PSScriptTools/2.9.0/Content/functions%5CGet-WhoIs.ps1
     https://github.com/PrateekKumarSingh/Graphical
     https://gist.github.com/PrateekKumarSingh/715b0576a0cd08769b967db7a86355ff
+    https://github.com/copdips/PSScripts/blob/master/Text/Select-ColorString.ps1
 
 
 REMARKS
