@@ -57,7 +57,7 @@ Function Get-ipstack {
     End {
         if ($table) {
             $htable = New-Object -TypeName psobject -Property $table
-            $htable
+            $htable | Format-List
         }
         if ($t.location) {
             Write-host "location: "
