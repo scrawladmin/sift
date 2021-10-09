@@ -162,7 +162,7 @@ Function Test-PSversion {
     }
 }
 
-
+# https://gist.github.com/PrateekKumarSingh/715b0576a0cd08769b967db7a86355ff
 Function Trace-Word {
     [Cmdletbinding()]
     [Alias("Highlight")]
