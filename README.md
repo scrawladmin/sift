@@ -74,6 +74,7 @@ SYNTAX
 
 DESCRIPTION
 
+![](https://github.com/scrawladmin/sift/blob/main/sift.gif)
 
 RELATED LINKS
     
@@ -100,4 +101,4 @@ INSTALL
 
 
 
-![](https://github.com/scrawladmin/sift/blob/main/sift.gif)
+
