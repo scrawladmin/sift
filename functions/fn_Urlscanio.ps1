@@ -61,7 +61,7 @@ Function Get-urlscanio {
     End {
         if ($table) {
             $htable = New-Object -TypeName psobject -Property $table
-            $htable
+            $htable | Format-List
         }
         Write-Verbose "Exiting $($MyInvocation.Mycommand)"
     }
