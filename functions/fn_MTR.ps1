@@ -259,7 +259,7 @@ Function Get-PerHopRTT {
     
     
     $stdDev = Get-StandardDeviation $PerHopRTTArr 
-    write-log "stddev $stdDev"
+    # write-log "stddev $stdDev"
     if ($psSeven) {
       If (($HopResults.Latency -eq 0) -and ($HopResults.Status -ne 'Success' )) {
         #100% loss, but name resolves
@@ -291,9 +291,9 @@ Function Get-PerHopRTT {
     $HopRTTMax = "-"
     $HopRTTLast = '-'
   } #End TimedOut condition
-  Write-log "RTTmin = $HopRTTMin"
-  Write-log "HopRTTMax = $HopRTTMax"
-  Write-log "HopRTTAvg = $HopRTTAvg"
+  #Write-log "RTTmin = $HopRTTMin"
+  #Write-log "HopRTTMax = $HopRTTMax"
+  #Write-log "HopRTTAvg = $HopRTTAvg"
   $SAPSObj = [PSCustomObject]@{
     "hostname" = $HopName.NameHost
     "Nr"       = $i
