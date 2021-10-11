@@ -214,8 +214,13 @@ Function Get-PerHopRTT {
     For ($y = 1; $y -le $PingCycles; $y++) {
       # $HopResults = $SendICMP.Send($Hop,1000,$ByteArr) #Send the packet with a 1 second timeout
       if ($psSeven) {
-        $HopResults = Test-Connection $Hop -Ping -Count 1 -TimeoutSeconds 1 -Bytes 32 
-        # $HopRTT = $HopResults.RoundtripTime
+        try {
+          $HopResults = Test-Connection $Hop -Ping -Count 1 -TimeoutSeconds 1 -Bytes 32 
+          # $HopRTT = $HopResults.RoundtripTime
+        }
+        catch {
+          write-log "$($_.Exception.Message)"
+        }
         $HopRTT = $HopResults.Latency 
       }
       Else {
@@ -223,7 +228,7 @@ Function Get-PerHopRTT {
           $HopResults = Test-Connection $Hop -Count 1 -EA SilentlyContinue -BufferSize 32 -Delay 1
         }
         Catch {
-          $_.Exception
+          write-log "$($_.Exception.Message)"
         }
         $HopRTT = $HopResults.ResponseTime
       }
