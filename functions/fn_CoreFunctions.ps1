@@ -128,12 +128,14 @@ Function Get-Logo {
 Function Set-Console {
     Write-log "Function: Set-Console"
     If ( $logo -ne "off") {
-        Clear-Host
-        $host.ui.RawUi.WindowTitle = "...::: Sift :::..."
-        [console]::ForegroundColor = "White"
-        [console]::BackgroundColor = "Black"
-        $host.PrivateData.VerboseForegroundColor = 'White'
-        Get-Logo
+        if (!$PSCmdlet.MyInvocation.BoundParameters["Verbose"].IsPresent) {
+            Clear-Host
+            $host.ui.RawUi.WindowTitle = "...::: Sift :::..."
+            [console]::ForegroundColor = "White"
+            [console]::BackgroundColor = "Black"
+            $host.PrivateData.VerboseForegroundColor = 'White'
+            Get-Logo
+        }
     }
     Else {
         $host.ui.RawUi.WindowTitle = "...::: Sift :::..."
