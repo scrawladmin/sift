@@ -133,8 +133,6 @@ Function Set-Console {
         [console]::ForegroundColor = "White"
         [console]::BackgroundColor = "Black"
         $host.PrivateData.VerboseForegroundColor = 'White'
-        # [console]::WindowWidth = 150; [console]::WindowHeight = 125; [console]::BufferWidth = [console]::WindowWidth
-        #$host.UI.RawUI.BufferSize = New-Object System.Management.Automation.Host.Size(200,5000)
         Get-Logo
     }
     Else {
