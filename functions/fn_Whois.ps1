@@ -10,9 +10,9 @@ Function Get-WhoIs {
             ValueFromPipelineByPropertyName)]
         [ValidateNotNullOrEmpty()]
         [ValidatePattern("^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$")]
-         [ValidateScript( {
-            #verify each octet is valid to simplify the regex
-                $test = ($_.split(".")).where({[int]$_ -gt 254})
+        [ValidateScript( {
+                #verify each octet is valid to simplify the regex
+                $test = ($_.split(".")).where({ [int]$_ -gt 254 })
                 if ($test) {
                     Throw "$_ does not appear to be a valid IPv4 address"
                     $false
@@ -25,29 +25,29 @@ Function Get-WhoIs {
     )
 
     Begin {
-        Write-log "Starting $($MyInvocation.Mycommand)"
+        Write-Verbose "Starting $($MyInvocation.Mycommand)"
         $baseURL = 'http://whois.arin.net/rest'
         #default is XML anyway
-        $header = @{"Accept" = "application/xml"}
+        $header = @{"Accept" = "application/xml" }
 
     } #begin
 
     Process {
-        Write-log "Getting WhoIs information for $IPAddress"
+        Write-Verbose "Getting WhoIs information for $IPAddress"
         $url = "$baseUrl/ip/$ipaddress"
         Try {
             $r = Invoke-Restmethod $url -Headers $header -ErrorAction stop
-            # Write-log ($r.net | Out-String)
+            # Write-Verbose ($r.net | Out-String)
             $city = (Invoke-RestMethod $r.net.orgRef.'#text').org.city
         }
         Catch {
             $errMsg = "Sorry. There was an error retrieving WhoIs information for $IPAddress. $($_.exception.message)"
             $host.ui.WriteErrorLine($errMsg)
-            write-log "$($_.exception.message)"
+            Write-debug "$($_.exception.message)"
         }
 
         if ($r.net) {
-            Write-log "Creating result"
+            Write-Verbose "Creating result"
             $result = [pscustomobject]@{
                 PSTypeName             = "WhoIsResult"
                 IP                     = $ipaddress
@@ -56,7 +56,7 @@ Function Get-WhoIs {
                 City                   = $city
                 StartAddress           = $r.net.startAddress
                 EndAddress             = $r.net.endAddress
-                NetBlocks              = $r.net.netBlocks.netBlock | foreach-object {"$($_.startaddress)/$($_.cidrLength)"}
+                NetBlocks              = $r.net.netBlocks.netBlock | foreach-object { "$($_.startaddress)/$($_.cidrLength)" }
                 Updated                = $r.net.updateDate -as [datetime]
             }
             $results = @()
@@ -92,6 +92,6 @@ Function Get-WhoIs {
     } #Process
 
     End {
-        Write-log "Ending $($MyInvocation.Mycommand)"
+        Write-Verbose "Ending $($MyInvocation.Mycommand)"
     } #end
 }

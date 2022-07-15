@@ -12,17 +12,17 @@ Function Get-hetrixIPblacklist {
         $ipaddress
     )
     Begin {
-        write-log "Function: $($MyInvocation.Mycommand)"
+        Write-Verbose "Function: $($MyInvocation.Mycommand)"
     }
     Process {
-        if ($hetrixapikey) {
+        if ($Hetrixtoolskey) {
             if ($ipaddress) {
                 Try {
-                    $url = 'https://api.hetrixtools.com/v2/' + $hetrixapikey + '/blacklist-check/ipv4/' + $ipaddress + '/'
+                    $url = 'https://api.hetrixtools.com/v2/' + $Hetrixtoolskey + '/blacklist-check/ipv4/' + $ipaddress + '/'
                     $response = Invoke-WebRequest -Method GET -Uri "$url"
                 }
                 Catch {
-                    Write-log "$($_.Exception.Message)" 
+                    Write-debug "$($_.Exception.Message)" 
                     return
                 }
                 if ($response) {
@@ -80,18 +80,18 @@ Function Get-hetrixDomainblacklist {
         $fqdn
     )
     begin {
-        write-log "Function: $($MyInvocation.Mycommand)"
+        Write-Verbose "Function: $($MyInvocation.Mycommand)"
         $apiname = 'HETRIXTOOLS'
     }
     Process {
-        if ($hetrixapikey) {
+        if ($Hetrixtoolskey) {
             if ($fqdn) {
                 Try {
-                    $url = 'https://api.hetrixtools.com/v2/' + $hetrixapikey + '/blacklist-check/domain/' + $fqdn + '/'
+                    $url = 'https://api.hetrixtools.com/v2/' + $Hetrixtoolskey + '/blacklist-check/domain/' + $fqdn + '/'
                     $response = Invoke-WebRequest -Method GET -Uri "$url"
                 }
                 Catch {
-                    Write-log "$($_.Exception.Message)" 
+                    Write-debug "$($_.Exception.Message)" 
                 }
                 if ($response) {
                     $t = $response.Content | ConvertFrom-Json
@@ -127,6 +127,6 @@ Function Get-hetrixDomainblacklist {
             Write-host "BLACKLISTED: "
             $t.blacklisted_on
         }
-        Write-log "Exiting $($MyInvocation.Mycommand)"
+        Write-Verbose "Exiting $($MyInvocation.Mycommand)"
     }
 }

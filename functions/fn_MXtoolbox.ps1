@@ -88,7 +88,7 @@ Function Get-MxLookup {
         } 
     } 
     begin {
-        if ($MXAPIKey.length -ne 36) { Connect-MXOnline $MX_API_key }
+        if ($MXAPIKey.length -ne 36) { Connect-MXOnline $MXtoolboxkey }
         $hdrs = @{
             'Authorization' = $MXAPIKey
         }

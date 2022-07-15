@@ -23,7 +23,7 @@ function Get-VTFileReport {
         [Parameter(ParameterSetName = 'Proxy',
             Mandatory = $false,
             ValueFromPipelineByPropertyName = $false)]
-        [string]$APIKey = $vtapikey,
+        [string]$APIKey = $VirusTotalkey,
 
         [Parameter(ParameterSetName = 'Direct',
             Mandatory = $false,
@@ -139,7 +139,7 @@ function Get-VTIPReport {
         [Parameter(ParameterSetName = 'Proxy',
             Mandatory = $false,
             ValueFromPipelineByPropertyName = $false)]
-        [string]$APIKey = $vtapikey,
+        [string]$APIKey = $VirusTotalkey,
 
         [Parameter(ParameterSetName = 'Direct',
             Mandatory = $false,
@@ -337,7 +337,7 @@ function Get-VTDomainReport {
         [Parameter(ParameterSetName = 'Proxy',
             Mandatory = $false,
             ValueFromPipelineByPropertyName = $false)]
-        [string]$APIKey = $vtapikey,
+        [string]$APIKey = $VirusTotalkey,
 
         [Parameter(ParameterSetName = 'Direct',
             Mandatory = $false,
@@ -516,7 +516,7 @@ function Get-VTURLReport {
         [Parameter(ParameterSetName = 'Proxy',
             Mandatory = $false,
             ValueFromPipelineByPropertyName = $false)]
-        [string]$APIKey = $vtapikey,
+        [string]$APIKey = $VirusTotalkey,
 
         # Automatically submit the URL for analysis if no report is found for it in VirusTotal.
         [Parameter(ParameterSetName = 'Direct',
@@ -552,7 +552,7 @@ function Get-VTURLReport {
     )
 
     Begin {
-        Write-log "function Get-VTURLReport"
+        Write-debug "$($_.Exception.Message)"
         $URI = 'https://www.virustotal.com/vtapi/v2/url/report'
         
         if ($Scan) {
@@ -669,113 +669,6 @@ function Get-VTURLReport {
 }
 
 # Not configured 
-
-function Set-VTAPIKey
-{
-    [CmdletBinding()]
-    Param
-    (
-        # VirusToral API Key.
-        [Parameter(Mandatory=$true)]
-        [string]$APIKey,
-
-        [Parameter(Mandatory=$true,
-                   ValueFromPipelineByPropertyName=$true,
-                   Position=1)]
-        [securestring]$MasterPassword
-    )
-
-    Begin
-    {
-    }
-    Process
-    {
-        $Global:VTAPIKey = $APIKey
-        $SecureKeyString = ConvertTo-SecureString -String $APIKey -AsPlainText -Force
-
-        # Generate a random secure Salt
-        $SaltBytes = New-Object byte[] 32
-        $RNG = New-Object System.Security.Cryptography.RNGCryptoServiceProvider
-        $RNG.GetBytes($SaltBytes)
-
-        $Credentials = New-Object System.Management.Automation.PSCredential -ArgumentList 'user', $MasterPassword
-
-        # Derive Key, IV and Salt from Key
-        $Rfc2898Deriver = New-Object System.Security.Cryptography.Rfc2898DeriveBytes -ArgumentList $Credentials.GetNetworkCredential().Password, $SaltBytes
-        $KeyBytes  = $Rfc2898Deriver.GetBytes(32)
-
-        $EncryptedString = $SecureKeyString | ConvertFrom-SecureString -Key $KeyBytes
-
-        $FolderName = 'Posh-VirusTotal'
-        $ConfigName = 'api.key'
-        $saltname   = 'salt.rnd'
-        
-        if (!(Test-Path "$($env:AppData)\$FolderName"))
-        {
-            Write-Verbose -Message 'Seems this is the first time the config has been set.'
-            Write-Verbose -Message "Creating folder $("$($env:AppData)\$FolderName")"
-            New-Item -ItemType directory -Path "$($env:AppData)\$FolderName" | Out-Null
-        }
-        
-        Write-Verbose -Message "Saving the information to configuration file $("$($env:AppData)\$FolderName\$ConfigName")"
-        "$($EncryptedString)"  | Set-Content  "$($env:AppData)\$FolderName\$ConfigName" -Force
-        Set-Content -Value $SaltBytes -Encoding Byte -Path "$($env:AppData)\$FolderName\$saltname" -Force
-    }
-    End
-    {
-    }
-}
-
-#  .ExternalHelp Posh-VirusTotal.Help.xml
-function Read-VTAPIKey
-{
-    [CmdletBinding()]
-
-    Param
-    (
-
-        [Parameter(Mandatory=$true,
-                   ValueFromPipelineByPropertyName=$true,
-                   Position=0)]
-        [securestring]$MasterPassword
-    )
-
-    Begin
-    {
-        # Test if configuration file exists.
-        if (!(Test-Path "$($env:AppData)\Posh-VirusTotal\api.key"))
-        {
-            throw 'Configuration has not been set, Set-VTAPIKey to configure the API Keys.'
-        }
-    }
-    Process
-    {
-        Write-Verbose -Message "Reading key from $($env:AppData)\Posh-VirusTotal\api.key."
-        $ConfigFileContent = Get-Content -Path "$($env:AppData)\Posh-VirusTotal\api.key"
-        Write-Debug -Message "Secure string is $($ConfigFileContent)"
-
-        $SaltBytes = Get-Content -Encoding Byte -Path "$($env:AppData)\Posh-VirusTotal\salt.rnd" 
-        $Credentials = New-Object System.Management.Automation.PSCredential -ArgumentList 'user', $MasterPassword
-
-        # Derive Key, IV and Salt from Key
-        $Rfc2898Deriver = New-Object System.Security.Cryptography.Rfc2898DeriveBytes -ArgumentList $Credentials.GetNetworkCredential().Password, $SaltBytes
-        $KeyBytes  = $Rfc2898Deriver.GetBytes(32)
-
-        $SecString = ConvertTo-SecureString -key $KeyBytes $ConfigFileContent
-
-        # Decrypt the secure string.
-        $SecureStringToBSTR = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($SecString)
-        $APIKey = [Runtime.InteropServices.Marshal]::PtrToStringAuto($SecureStringToBSTR)
-
-        # Set session variable with the key.
-        Write-Verbose -Message "Setting key $($APIKey) to variable for use by other commands."
-        $Global:VTAPIKey = $APIKey
-        Write-Verbose -Message 'Key has been set.'
-    }
-    End
-    {
-    }
-}
 
 #  .ExternalHelp Posh-VirusTotal.Help.xml
 function Submit-VTURL {

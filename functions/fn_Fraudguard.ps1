@@ -12,10 +12,10 @@ Function Get-fraudguardiprep {
         $ipaddress
     )
     Begin {
-        write-log "Function: $($MyInvocation.Mycommand)"
+        Write-Verbose "Function: $($MyInvocation.Mycommand)"
         $apiname = 'FRAUDGUARD'
-        if ($fraudguarduser -and $fraudguardpass) {
-            $pair = "$($fraudguarduser):$($fraudguardpass)"
+        if ($fraudguarduser -and $Fraudguardkey) {
+            $pair = "$($fraudguarduser):$($Fraudguardkey)"
             $encodedCreds = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes($pair))
             $basicAuthValue = "Basic $encodedCreds"
             $Headers = @{
@@ -34,7 +34,7 @@ Function Get-fraudguardiprep {
             }
         }
         Catch {
-            Write-log "$($_.Exception.Message)"
+            Write-debug "$($_.Exception.Message)"
             return
         }
         if ($response) {
@@ -65,6 +65,6 @@ Function Get-fraudguardiprep {
             $htable = New-Object -TypeName psobject -Property $table
             $htable | Format-List
         }
-        Write-log "Exiting $($MyInvocation.Mycommand)"
+        Write-Verbose "Exiting $($MyInvocation.Mycommand)"
     }
 }

@@ -10,11 +10,11 @@ Function Get-urlscanio {
         $url
     )
     Begin {
-        write-log "Function: $($MyInvocation.Mycommand)"
-        if ($urlscanapikey) {
+        Write-verbose "Function: $($MyInvocation.Mycommand)"
+        if ($Urlscaniokey) {
             if ($url) {
                 $Info = @{ 
-                    'API-Key' = $urlscanapikey
+                    'API-Key' = $Urlscaniokey
                 }
                 $data = @{ 
                     'url'        = "$url"
@@ -35,7 +35,7 @@ Function Get-urlscanio {
                 $response = Invoke-WebRequest "https://urlscan.io/api/v1/scan/" -Method POST -ContentType 'application/json' -Headers $Info -body $data
             }
             Catch {
-                Write-log "$($_.Exception.Message)" 
+                Write-debug "$($_.Exception.Message)" 
                 return
             }
             if ($response) {

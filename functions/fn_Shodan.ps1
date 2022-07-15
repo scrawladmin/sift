@@ -12,9 +12,9 @@ Function Get-shodanip {
         $ipaddress
     )
     Begin {
-        write-log "Function: $($MyInvocation.Mycommand)"
-        If ($ipaddress -and $shodanapikey) {
-            $url = "https://api.shodan.io/shodan/host/" + $ipaddress + "?key=$shodanapikey"
+        Write-verbose "Function: $($MyInvocation.Mycommand)"
+        If ($ipaddress -and $Shodankey) {
+            $url = "https://api.shodan.io/shodan/host/" + $ipaddress + "?key=$Shodankey"
         }
         Else {
             Write-Warning "Requires Shodan API Key" -InformationAction Continue
@@ -27,7 +27,7 @@ Function Get-shodanip {
                 $response = Invoke-WebRequest -Method Get -Uri $url
             }
             catch {
-                Write-log "$($_.Exception.Message)" 
+                Write-debug "$($_.Exception.Message)" 
                 return
             }
         }

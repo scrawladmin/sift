@@ -12,7 +12,7 @@ Function Get-ippulse {
         $ipaddress
     )
     begin {
-        write-log "Function: $($MyInvocation.Mycommand)"
+        Write-Verbose "Function: $($MyInvocation.Mycommand)"
         $apiname = 'OTX'
     }
     Process {
@@ -22,7 +22,7 @@ Function Get-ippulse {
                 $response = Invoke-WebRequest -Method Get -Uri "$url" -ContentType 'application/json'
             }
             Catch {
-                Write-log "$($_.Exception.Message)" 
+                Write-debug "$($_.Exception.Message)" 
             }
             if ($response) {
                 $t = $response.Content | ConvertFrom-Json
@@ -60,7 +60,7 @@ Function Get-ippulse {
             $htable = New-Object -TypeName psobject -Property $table
             $htable | Format-List
         }
-        Write-log "Exiting $($MyInvocation.Mycommand)"
+        Write-Verbose "Exiting $($MyInvocation.Mycommand)"
     }
 }
 
@@ -77,7 +77,7 @@ Function Get-fqdnpulse {
         $fqdn
     )
     begin {
-        write-log "Function: $($MyInvocation.Mycommand)"
+        Write-Verbose "Function: $($MyInvocation.Mycommand)"
         $apiname = 'OTX'
     }
     Process {
@@ -87,7 +87,7 @@ Function Get-fqdnpulse {
                 $response = Invoke-WebRequest -Method Get -Uri "$url" -ContentType 'application/json'
             }
             Catch {
-                Write-log "$($_.Exception.Message)" 
+                Write-debug "$($_.Exception.Message)" 
             }
             if ($response) {
                 $t = $response.Content | ConvertFrom-Json
@@ -123,6 +123,6 @@ Function Get-fqdnpulse {
             $htable = New-Object -TypeName psobject -Property $table
             $htable | Format-List
         }
-        Write-log "Exiting $($MyInvocation.Mycommand)"
+        Write-Verbose "Exiting $($MyInvocation.Mycommand)"
     }
 }

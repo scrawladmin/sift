@@ -16,16 +16,16 @@ Function Get-neuIPBlocklist {
     )
 
     begin {
-        write-log "Function: $($MyInvocation.Mycommand)"
+        Write-Verbose "Function: $($MyInvocation.Mycommand)"
         $apiname = 'Neutrino'
         $params = @()
     }
     Process {
-        if ($neuuserid -and $neuapikey ) {
+        if ($neutrinokeyuserid -and $neutrinokey ) {
             if ($ipaddress) {
                 $info = "" | Select-Object ip, 'user-id', 'api-key', 'vpn-lookup'
-                $info.'user-id' = "$neuuserid"
-                $info.'api-key' = "$neuapikey"
+                $info.'user-id' = "$neutrinokeyuserid"
+                $info.'api-key' = "$neutrinokey"
                 $info.'vpn-lookup' = $true
                 $info.ip = $ipaddress
                 if ($info) {
@@ -37,7 +37,7 @@ Function Get-neuIPBlocklist {
                                 $response = Invoke-WebRequest -Method Post -Uri "https://neutrinoapi.net/ip-blocklist" -ContentType 'application/json' -Body $params
                             }
                             Catch {
-                                Write-log "$($_.Exception.Message)" 
+                                Write-debug "$($_.Exception.Message)" 
                                 return
                             }
                             if ($response) {
@@ -80,7 +80,7 @@ Function Get-neuIPBlocklist {
             $htable = New-Object -TypeName psobject -Property $table
             $htable
         }
-        Write-log "Exiting $($MyInvocation.Mycommand)"
+        Write-Verbose "Exiting $($MyInvocation.Mycommand)"
     }
 }
 Function Get-neuIPProbe {
@@ -98,12 +98,12 @@ Function Get-neuIPProbe {
         [ValidatePattern("^([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3}$")]
         $ipaddress)
     begin {
-        write-log "Function: $($MyInvocation.Mycommand)"
+        Write-Verbose "Function: $($MyInvocation.Mycommand)"
     }
     process {
-        if ($neuuserid -and $neuapikey) {
+        if ($neutrinokeyuserid -and $neutrinokey) {
             if ($ipaddress) {
-                $Info = [PSCustomObject]@{ 'user-id' = "$neuuserid"; 'api-key' = "$neuapikey"; ip = "$ipaddress" }
+                $Info = [PSCustomObject]@{ 'user-id' = "$neutrinokeyuserid"; 'api-key' = "$neutrinokey"; ip = "$ipaddress" }
                 $params += $Info
                 if ($params) {
                     $params = $params | ConvertTo-Json
@@ -113,7 +113,7 @@ Function Get-neuIPProbe {
                         }
                         Catch {
                             $($_.ErrorDetails.Message)
-                            Write-log "$($_.ErrorDetails.Message)" 
+                            Write-debug "$($_.ErrorDetails.Message)" 
                             return
                         }
                         if ($response) {
@@ -156,7 +156,7 @@ Function Get-neuIPProbe {
             $htable = New-Object -TypeName psobject -Property $table
             $htable
         }
-        Write-log "Exiting $($MyInvocation.Mycommand)"
+        Write-Verbose "Exiting $($MyInvocation.Mycommand)"
     }
 }
 Function Get-neuHostRep {
@@ -175,15 +175,15 @@ Function Get-neuHostRep {
         $object
     )
     Begin {
-        write-log "Function: $($MyInvocation.MyCommand)"
+        Write-Verbose "Function: $($MyInvocation.MyCommand)"
 
     }
     Process {
-        if ($neuuserid -and $neuapikey) {
+        if ($neutrinokeyuserid -and $neutrinokey) {
             if ($object) {
                 $info = New-Object -TypeName psobject
-                $info | Add-Member NoteProperty -Name 'user-id' -Value $neuuserid
-                $info | Add-Member NoteProperty -Name 'api-key' -Value $neuapikey
+                $info | Add-Member NoteProperty -Name 'user-id' -Value $neutrinokeyuserid
+                $info | Add-Member NoteProperty -Name 'api-key' -Value $neutrinokey
                 $info | Add-Member NoteProperty -Name 'host' -Value $object
                 $params += $Info
                 if ($params) {
@@ -193,7 +193,7 @@ Function Get-neuHostRep {
                             $response = Invoke-WebRequest -Method Post -Uri "https://neutrinoapi.net/host-reputation" -ContentType 'application/json' -Body $params
                         }
                         Catch {
-                            Write-log "$($_.Exception.Message)" 
+                            Write-debug "$($_.Exception.Message)" 
                             return
                         }
                         if ($response) {
@@ -230,7 +230,7 @@ Function Get-neuHostRep {
         }
     }
     End {
-        Write-log "Exiting $($MyInvocation.Mycommand)"
+        Write-Verbose "Exiting $($MyInvocation.Mycommand)"
 
     }
 }
@@ -250,14 +250,14 @@ Function Get-neuIPInfo {
         $ipaddress
     )
     Begin {
-        write-log "Function: $($MyInvocation.Mycommand)"
+        Write-Verbose "Function: $($MyInvocation.Mycommand)"
     }
     Process {
-        if ($neuuserid -and $neuapikey) {
+        if ($neutrinokeyuserid -and $neutrinokey) {
             if ($ipaddress) {
                 $info = @{
-                    'user-id' = "$neuuserid"
-                    'api-key' = "$neuapikey"
+                    'user-id' = "$neutrinokeyuserid"
+                    'api-key' = "$neutrinokey"
                     'ip'      = "$ipaddress"
                     # 'reverse-lookup' = $true
                 }
@@ -270,7 +270,7 @@ Function Get-neuIPInfo {
                                 $response = Invoke-WebRequest -Method Post -Uri "https://neutrinoapi.net/ip-info" -ContentType 'application/json' -Body $params
                             }
                             catch {
-                                Write-log "$($_.Exception.Message)" 
+                                Write-debug "$($_.Exception.Message)" 
                                 return
                             }
                             if ($response) {
@@ -309,7 +309,7 @@ Function Get-neuIPInfo {
             $htable = New-Object -TypeName psobject -Property $table
             $htable
         }
-        Write-log "Exiting $($MyInvocation.Mycommand)"
+        Write-Verbose "Exiting $($MyInvocation.Mycommand)"
     }
 }
 Function Get-neuURLInfo {
@@ -330,12 +330,12 @@ Function Get-neuURLInfo {
         $url
     )
     Begin {
-        write-log "Function: $($MyInvocation.Mycommand)"
-        if ($neuuserid -and $neuapikey) {
+        Write-Verbose "Function: $($MyInvocation.Mycommand)"
+        if ($neutrinokeyuserid -and $neutrinokey) {
             if ($url) {
                 $info = @{
-                    'user-id' = "$neuuserid"
-                    'api-key' = "$neuapikey"
+                    'user-id' = "$neutrinokeyuserid"
+                    'api-key' = "$neutrinokey"
                     'url'     = "$url"
                 }
             }
@@ -354,7 +354,7 @@ Function Get-neuURLInfo {
                     $response = Invoke-WebRequest -Method Post -Uri "https://neutrinoapi.net/url-info" -ContentType 'application/json' -Body $params
                 }
                 Catch {
-                    Write-log "$($_.Exception.Message)" 
+                    Write-debug "$($_.Exception.Message)" 
                     return
                 }
                 if ($response) {
@@ -385,7 +385,7 @@ Function Get-neuURLInfo {
             $htable = New-Object -TypeName psobject -Property $table
             $htable
         }
-        Write-log "Exiting $($MyInvocation.Mycommand)"
+        Write-Verbose "Exiting $($MyInvocation.Mycommand)"
     }
 }
 Function Get-neuEmailvalidate {
@@ -394,11 +394,11 @@ Function Get-neuEmailvalidate {
     # Parse, validate and clean an email address.
     # Parameter	Type: email
     # Optional: fix-typos boolean Automatically attempt to fix typos in the address
-    write-log "Function: Get-neuEmailvalidate"
-    if ($neuuserid) {
-        if ($neuapikey) {
+    Write-debug"$($_.Exception.Message)"
+    if ($neutrinokeyuserid) {
+        if ($neutrinokey) {
             if ($email) {
-                $Info = [PSCustomObject]@{ 'user-id' = "$neuuserid"; 'api-key' = "$neuapikey"; email = "$email" }
+                $Info = [PSCustomObject]@{ 'user-id' = "$neutrinokeyuserid"; 'api-key' = "$neutrinokey"; email = "$email" }
                 $params += $Info
                 if ($params) {
                     $params = $params | ConvertTo-Json
@@ -407,7 +407,7 @@ Function Get-neuEmailvalidate {
                             $response = Invoke-WebRequest -Method Post -Uri "https://neutrinoapi.net/email-validate" -ContentType 'application/json' -Body $params
                         }
                         Catch {
-                            Write-log "$($_.Exception.Message)" 
+                            Write-debug "$($_.Exception.Message)" 
                             return
                         }
                         if ($response) {
@@ -426,11 +426,11 @@ Function Get-neuEmailverify {
     # SMTP based email address verification. Verify real users and filter out low-quality email addresses.
     # Parameter	Type: email
     # Optional: fix-typos boolean Automatically attempt to fix typos in the address
-    write-log "Function: Get-neuEmailverify"
-    if ($neuuserid) {
-        if ($neuapikey) {
+    Write-debug"$($_.Exception.Message)"
+    if ($neutrinokeyuserid) {
+        if ($neutrinokey) {
             if ($email) {
-                $Info = [PSCustomObject]@{ 'user-id' = "$neuuserid"; 'api-key' = "$neuapikey"; email = "$email" }
+                $Info = [PSCustomObject]@{ 'user-id' = "$neutrinokeyuserid"; 'api-key' = "$neutrinokey"; email = "$email" }
                 $params += $Info
                 if ($params) {
                     $params = $params | ConvertTo-Json
@@ -465,11 +465,11 @@ Function Get-neuHTMLclean {
     # basic-html: allow advanced text formatting and hyper links
     # basic-html-with-images: same as basic html but also allows image tags
     # advanced-html: same as basic html with images but also allows many more common HTML tags like table, ul, dl, pre
-    write-log "Function: Get-neuHTMLclean"
-    if ($neuuserid) {
-        if ($neuapikey) {
+    write-log "$($_.Exception.Message)"
+    if ($neutrinokeyuserid) {
+        if ($neutrinokey) {
             if ($html) {
-                $Info = [PSCustomObject]@{ 'user-id' = "$neuuserid"; 'api-key' = "$neuapikey"; content = "$html" }
+                $Info = [PSCustomObject]@{ 'user-id' = "$neutrinokeyuserid"; 'api-key' = "$neutrinokey"; content = "$html" }
                 $params += $Info
                 if ($params) {
                     $params = $params | ConvertTo-Json

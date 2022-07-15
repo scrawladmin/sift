@@ -1,6 +1,6 @@
 Function New-Request {
-    Param ($object)
-    Write-log "Function: $($MyInvocation.Mycommand) $object"
+    Param ($object, $obejct2)
+    Write-Verbose "Function: $($MyInvocation.Mycommand)"
     If ([switch]$ippulse) {
         [string]$ipaddress = $ipaddress
         Get-ippulse $ipaddress
@@ -113,9 +113,16 @@ Function New-Request {
     If ([switch]$urlquery) {
         Get-URLhausQuery $object
     }
+    If ([string]$APIKey -and [securestring]$masterpassword) {
+        set-APIKey $APIKey $masterpassword
+    }
+    If ([switch]$unlock -and [securestring]$masterpassword) {
+        Read-APIKey $masterpassword
+    }
+
 }
 Function Get-Logo {
-    Write-log "Function: Get-Logo"  
+    Write-Verbose "Function: Get-Logo"  
     Write-Host "
     _________.__  _____  __   
    /   _____/|__|/ ____\/  |_ 
@@ -126,7 +133,7 @@ Function Get-Logo {
 " -F C
 }
 Function Set-Console {
-    Write-log "Function: Set-Console"
+    Write-Verbose "Function: Set-Console"
     If ( $logo -ne "off") {
         if (!$PSCmdlet.MyInvocation.BoundParameters["Verbose"].IsPresent) {
             Clear-Host
@@ -152,7 +159,7 @@ Function Write-log {
 }
 
 Function Test-PSversion {
-    Write-Log "Function Test-PSversion"
+    Write-debug "$($_.Exception.Message)"
     $psSeven = ( $PSVersionTable.PSVersion.Major -eq 7 ) 
     If ($psSeven -eq $true ) {
         $script:psSeven = 1
@@ -528,3 +535,113 @@ function Get-StandardDeviation {
         $standardDeviation
     }
 } 
+
+function Set-APIKey {
+    [CmdletBinding()]
+    Param
+    (
+        # API Key.
+        [Parameter(Mandatory = $true)]
+        [string]$APIKey,
+        [securestring]$MasterPassword
+    )
+
+    Begin {
+    }
+    Process {
+        $SecureKeyString = ConvertTo-SecureString -String $APIKey -AsPlainText -Force
+
+        # Generate a random secure Salt
+        $SaltBytes = New-Object byte[] 32
+        $RNG = New-Object System.Security.Cryptography.RNGCryptoServiceProvider
+        $RNG.GetBytes($SaltBytes)
+
+        $Credentials = New-Object System.Management.Automation.PSCredential -ArgumentList 'user', $MasterPassword
+
+        # Derive Key, IV and Salt from Key
+        $Rfc2898Deriver = New-Object System.Security.Cryptography.Rfc2898DeriveBytes -ArgumentList $Credentials.GetNetworkCredential().Password, $SaltBytes
+        $KeyBytes = $Rfc2898Deriver.GetBytes(32)
+
+        $EncryptedString = $SecureKeyString | ConvertFrom-SecureString -Key $KeyBytes
+        if ([switch]$neutrino ) {
+            $FolderName = "neutrino"
+        }
+        if ([switch]$virustotal ) {
+            $FolderName = "VirusTotal"
+        }
+        if ([switch]$ipstack ) {
+            $FolderName = "IPstack"
+        }
+        if ([switch]$urlscanio ) {
+            $FolderName = "Urlscanio"
+        }
+        if ([switch]$shodan ) {
+            $FolderName = "Shodan"
+        }
+        if ([switch]$hetrix ) {
+            $FolderName = "Hetrixtools"
+        }
+        if ([switch]$fraudguard ) {
+            $FolderName = "Fraudguard"
+        }
+        $ConfigName = 'api.key'
+        $saltname = 'salt.rnd'
+        
+        if (!(Test-Path "$($env:AppData)\$FolderName")) {
+            Write-Verbose -Message 'Seems this is the first time the config has been set.'
+            Write-Verbose -Message "Creating folder $("$($env:AppData)\$FolderName")"
+            New-Item -ItemType directory -Path "$($env:AppData)\$FolderName" | Out-Null
+        }
+        Write-Verbose -Message "Saving the information to configuration file $("$($env:AppData)\$FolderName\$ConfigName")"
+        "$($EncryptedString)"  | Set-Content  "$($env:AppData)\$FolderName\$ConfigName" -Force
+        Set-Content -Value $SaltBytes -Encoding utf32 -Path "$($env:AppData)\$FolderName\$saltname" -Force
+    }
+    End {
+    }
+}
+
+function Read-APIKey {
+    [CmdletBinding()]
+    Param (
+        [Parameter(Mandatory = $true,
+            ValueFromPipelineByPropertyName = $true,
+            Position = 0)]
+        [securestring]$MasterPassword )
+
+    # Test if configuration file exists.
+    if ([switch]$unlock ) {
+        $FolderNames = "neutrino", "MXtoolbox", "VirusTotal", "IPstack", "Urlscanio", "Shodan", "Hetrixtools", "Fraudguard"
+        foreach ($foldername in $FolderNames) {
+            if ((Test-Path "$($env:AppData)\$FolderName\api.key")) {
+
+                Write-Verbose -Message "Reading key from $($env:AppData)\$FolderName\api.key."
+                $ConfigFileContent = Get-Content -Path "$($env:AppData)\$FolderName\api.key"
+                $SaltBytes = Get-Content -Encoding utf32 -Path "$($env:AppData)\$FolderName\salt.rnd" 
+
+
+                Write-Debug -Message "Secure string is $($ConfigFileContent)"
+                $Credentials = New-Object System.Management.Automation.PSCredential -ArgumentList 'user', $MasterPassword
+
+                # Derive Key, IV and Salt from Key
+                $Rfc2898Deriver = New-Object System.Security.Cryptography.Rfc2898DeriveBytes -ArgumentList $Credentials.GetNetworkCredential().Password, $SaltBytes
+                $KeyBytes = $Rfc2898Deriver.GetBytes(32)
+
+                $SecString = ConvertTo-SecureString -key $KeyBytes $ConfigFileContent
+
+                # Decrypt the secure string.
+                $SecureStringToBSTR = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($SecString)
+                $global:APIKey = [Runtime.InteropServices.Marshal]::PtrToStringAuto($SecureStringToBSTR)
+
+                # Set session variable with the key.
+                Write-Verbose -Message "Setting key $($APIKey) to variable for use by other commands."
+               
+                Set-Variable -Name $($foldername + "key") -Option Constant -Scope Global -Value $APIKey
+               
+                Write-Verbose -Message 'Key has been set.'
+            }
+            else {
+                Write-Verbose "Configuration has not been set, API Key $FolderName"
+            }
+        }
+    }
+}

@@ -12,17 +12,17 @@ Function Get-ipstack {
         $ipaddress
     )
     begin {
-        write-log "Function: $($MyInvocation.Mycommand)"
+        Write-Verbose "Function: $($MyInvocation.Mycommand)"
     }
     Process {
         if ($ipaddress) {
-            if ($ipstackkey) {
+            if ($IPstackkey) {
                 Try {
-                    $url = 'http://api.ipstack.com/' + $ipaddress + '?access_key=' + $ipstackkey + '&hostname=1'
+                    $url = 'http://api.ipstack.com/' + $ipaddress + '?access_key=' + $IPstackkey + '&hostname=1'
                     $response = Invoke-WebRequest -Method Post -Uri "$url" -ContentType 'application/json'
                 }
                 Catch {
-                    Write-log "$($_.Exception.Message)" 
+                    Write-debug "$($_.Exception.Message)" 
                     return
                 }
                 if ($response) {
@@ -65,6 +65,6 @@ Function Get-ipstack {
                 $_
             }
         }
-        Write-log "Exiting $($MyInvocation.Mycommand)"
+        Write-Verbose "Exiting $($MyInvocation.Mycommand)"
     }
 }

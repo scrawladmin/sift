@@ -110,8 +110,8 @@ Function Show-Graph {
 
     }
     if ([switch]$ping) {
-        write-log "$totalmax -gt $maxlatency"
-        Write-log "totalmax: $totalmax"
+        Write-Verbose "$totalmax -gt $maxlatency"
+        Write-Verbose "totalmax: $totalmax"
         if (  ( [int]$totalmax -gt [int]$maxlatency) -eq $true) {
             $EndofRange = $totalmax  
             $StartOfRange = $totalmax / 2
@@ -120,7 +120,7 @@ Function Show-Graph {
             $EndofRange = 100 
             $StartOfRange = 0
         }
-        write-log "End: $EndofRange start: $StartOfRange"
+        Write-Verbose "End: $EndofRange start: $StartOfRange"
     }
     Else {
         $EndofRange = $Metric.Maximum + ($YAxisStep - $Metric.Maximum % $YAxisStep)

@@ -13,7 +13,7 @@ Function Ping-Flood {
     ) 
     Begin {
         $totalLatencyarray = @()
-        Write-Log "Ping-Flood"
+        Write-debug "$($_.Exception.Message)"
     }
     Process {
         If ($psSeven ) {
@@ -59,7 +59,7 @@ Function Ping-Flood {
     }
 }
 Function Submit-Ping {
-    write-log "Function Submit-Ping"
+    Write-debug "$($_.Exception.Message)"
     if ($psseven) {
         $totalminmax = $totalLatencyarray | measure -AllStats
         Write-verbose "Count:           $($totalminmax.Count)"
@@ -84,6 +84,6 @@ Function Submit-Ping {
     $totalLatency = $totalLatency / $pingcount
     $totalAvg = [math]::Round($totalAvg)
     $totals = @("Latency = Avg: $totalAvg Max: $totalmax Min: $totalmin Loss = $loss%") 
-    Write-log "$totals"
+    Write-Verbose "$totals"
     show-graph -datapoints $totalLatencyarray -YAxisTitle "ms" -XAxistitle "Ping" -GraphTitle "Network Latency" -Type Scatter
 }

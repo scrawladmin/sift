@@ -54,10 +54,10 @@ Function Test-MTR {
     [Alias("f")]
     [String]$Filename = "Traceroute_$Target"
   )
-  Write-log "Function: $($MyInvocation.Mycommand)"
+  Write-Verbose "Function: $($MyInvocation.Mycommand)"
 }
 Function Set-Variables {
-  Write-log "Function: $($MyInvocation.Mycommand)"
+  Write-Verbose "Function: $($MyInvocation.Mycommand)"
   $PerTraceArr = @()
   $ASNOwnerArr = @()
   $ASNOwnerObj = New-Object PSObject
@@ -84,11 +84,11 @@ Function Set-WindowSize {
     $NewSize.Width = 175
     $Window.WindowSize = $NewSize
   }
-  Write-Log "Function: $($MyInvocation.Mycommand)"
+  Write-Verbose "Function: $($MyInvocation.Mycommand)"
 } #End Set-WindowSize
 
 Function Get-Traceroute {
-  Write-Log "Function: $($MyInvocation.Mycommand)"
+  Write-Verbose "Function: $($MyInvocation.Mycommand)"
   # $Global:ProgressPreference = 'SilentlyContinue'
   if ($psSeven) {
     $TraceResults = (Test-Connection $Target -Traceroute -IPv4)
@@ -101,7 +101,7 @@ Function Get-Traceroute {
 } #End Get-Traceroute
 
 Function Resolve-ASN {
-  Write-Log "Function: $($MyInvocation.Mycommand)"
+  Write-Verbose "Function: $($MyInvocation.Mycommand)"
   $HopASN = $null #Reset to null each time
   $HopASNRecord = $null #Reset to null each time
   If ($Hop -notlike "TimedOut" -AND $Hop -notmatch "^(?:10|127|172\.(?:1[6-9]|2[0-9]|3[01])|192\.168)\..*") {
@@ -129,7 +129,7 @@ Function Resolve-ASN {
 } #End Resolve-ASN
 
 Function Resolve-ASNOwner {
-  Write-Log "Function: $($MyInvocation.Mycommand)"
+  Write-Verbose "Function: $($MyInvocation.Mycommand)"
   If ($HopASN -notlike "-") {  
     $IndexNo = $ASNOwnerArr.ASN.IndexOf($HopASN)  
     If (!($ASNOwnerArr.ASN.Contains($HopASN)) -OR ($ASNOwnerArr."ASN Owner"[$IndexNo].Contains('-'))) {
@@ -168,7 +168,7 @@ Function Resolve-ASNOwner {
 } #End Resolve-ASNOwner
 
 Function Resolve-DNS {
-  Write-Log "Function: $($MyInvocation.Mycommand)"
+  Write-Verbose "Function: $($MyInvocation.Mycommand)"
   $HopNameArr = $null
   $HopName = New-Object psobject
   If ($Hop -notlike "TimedOut" -and $Hop -notlike "0.0.0.0") {
@@ -200,7 +200,7 @@ Function Resolve-DNS {
 } #End Resolve-DNS
 
 Function Get-PerHopRTT {
-  Write-Log "Function: $($MyInvocation.Mycommand)"
+  Write-Verbose "Function: $($MyInvocation.Mycommand)"
   $PerHopRTTArr = @() #Store all RTT values per hop
   $SAPSObj = $null #Clear the array each cycle
   $HopRTT = $null
@@ -219,7 +219,7 @@ Function Get-PerHopRTT {
           # $HopRTT = $HopResults.RoundtripTime
         }
         catch {
-          write-log "$($_.Exception.Message)"
+          Write-debug "$($_.Exception.Message)"
         }
         $HopRTT = $HopResults.Latency 
       }
@@ -228,7 +228,7 @@ Function Get-PerHopRTT {
           $HopResults = Test-Connection $Hop -Count 1 -EA SilentlyContinue -BufferSize 32 -Delay 1
         }
         Catch {
-          write-log "$($_.Exception.Message)"
+          Write-debug "$($_.Exception.Message)"
         }
         $HopRTT = $HopResults.ResponseTime
       }
@@ -264,7 +264,7 @@ Function Get-PerHopRTT {
     
     
     $stdDev = Get-StandardDeviation $PerHopRTTArr 
-    # write-log "stddev $stdDev"
+    # Write-debug "stddev $stdDev"
     if ($psSeven) {
       If (($HopResults.Latency -eq 0) -and ($HopResults.Status -ne 'Success' )) {
         #100% loss, but name resolves
@@ -296,38 +296,38 @@ Function Get-PerHopRTT {
     $HopRTTMax = "-"
     $HopRTTLast = '-'
   } #End TimedOut condition
-  #Write-log "RTTmin = $HopRTTMin"
-  #Write-log "HopRTTMax = $HopRTTMax"
-  #Write-log "HopRTTAvg = $HopRTTAvg"
+  #Write-debug "RTTmin = $HopRTTMin"
+  #Write-debug "HopRTTMax = $HopRTTMax"
+  #Write-debug "HopRTTAvg = $HopRTTAvg"
   $SAPSObj = [PSCustomObject]@{
     "hostname" = $HopName.NameHost
     "Nr"       = $i
     "Loss`% "  = $HopLoss
     # "Count"  = $PingCycles
-    "Snt"     = $sent
+    "Snt"      = $sent
     "Recv"     = $received
     "Best"     = $HopRTTMin
     # "ASN"       = $HopASN
     # "ASN Owner" = $HopASNOwner
     # "Hop IP"    = $Hop
-    "Avg"     = $HopRTTAvg
+    "Avg"      = $HopRTTAvg
     "Worst"    = $HopRTTMax
     "Last"     = $HopRTTLast
-    "stdev"   = [Math]::Round($stdDev,2)
+    "stdev"    = [Math]::Round($stdDev, 2)
   }
   $PerTraceArr += $SAPSObj #Add the object to the array
   $received = $null
   $sent = $null
 } #End Get-PerHopRTT
 Function Show-MTRResults {
-  Write-Log "Function: $($MyInvocation.Mycommand)"
+  Write-Verbose "Function: $($MyInvocation.Mycommand)"
   $PerTraceArr | Format-Table -Autosize
   # $PerTraceArr | Format-Table -Autosize | Tee-Object -FilePath $log -Append
   $PerTraceArr | Format-Table -Autosize | Out-File $log -encoding UTF8 -Append
 }
 Function Start-mtr {
   param ($target)
-  Write-Log "Function: $($MyInvocation.Mycommand)"
+  Write-Verbose "Function: $($MyInvocation.Mycommand)"
   $runtime = Measure-Command {
     . Test-MTR  $target
     . Set-Variables
@@ -342,5 +342,5 @@ Function Start-mtr {
   }
   $name = 'MTR' | Trace-word -words 'MTR'
   . Show-MTRResults
-  write-log "MTR Runtime: $runtime"
+  Write-Verbose "MTR Runtime: $runtime"
 }
