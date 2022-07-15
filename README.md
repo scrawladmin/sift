@@ -58,7 +58,7 @@ REMARKS
 INSTALL   
 
    1. Download, Unzip, Add to Path in Powershell User Profile.
-   2. Add API info to fn_settings.ps1
+   2. Add API info with -addkey param
 
 
 
