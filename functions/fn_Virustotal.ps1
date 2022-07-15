@@ -50,11 +50,8 @@ function Get-VTFileReport {
     )
     Begin {
         $URI = 'https://www.virustotal.com/vtapi/v2/file/report'
-        if (!(Test-Path variable:Global:VTAPIKey ) -and !($APIKey)) {
+        if (!($APIKey)) {
             NoAPIKeyError
-        }
-        elseif ((Test-Path variable:Global:VTAPIKey ) -and !($APIKey)) {
-            $APIKey = $Global:VTAPIKey
         }
     }
     Process {
@@ -167,11 +164,8 @@ function Get-VTIPReport {
 
     Begin {
         $URI = 'https://www.virustotal.com/vtapi/v2/ip-address/report'
-        if (!(Test-Path variable:Global:VTAPIKey ) -and !($APIKey)) {
+        if (!($APIKey)) {
             NoAPIKeyError
-        }
-        elseif ((Test-Path variable:Global:VTAPIKey ) -and !($APIKey)) {
-            $APIKey = $Global:VTAPIKey
         }
     }
     Process {
@@ -365,11 +359,8 @@ function Get-VTDomainReport {
 
     Begin {
         $URI = 'https://www.virustotal.com/vtapi/v2/domain/report'
-        if (!(Test-Path variable:Global:VTAPIKey ) -and !($APIKey)) {
+        if (!($APIKey)) {
             NoAPIKeyError
-        }
-        elseif ((Test-Path variable:Global:VTAPIKey ) -and !($APIKey)) {
-            $APIKey = $Global:VTAPIKey
         }
     }
     Process {
@@ -562,11 +553,8 @@ function Get-VTURLReport {
             $scanurl = 0
         }
 
-        if (!(Test-Path variable:Global:VTAPIKey ) -and !($APIKey)) {
+        if (!($APIKey)) {
             NoAPIKeyError
-        }
-        elseif ((Test-Path variable:Global:VTAPIKey ) -and !($APIKey)) {
-            $APIKey = $Global:VTAPIKey
         }
     }
     Process {
@@ -738,11 +726,8 @@ function Submit-VTURL {
             $scanurl = 0
         }
 
-        if (!(Test-Path variable:Global:VTAPIKey ) -and !($APIKey)) {
+        if (!($APIKey)) {
             NoAPIKeyError
-        }
-        elseif ((Test-Path variable:Global:VTAPIKey ) -and !($APIKey)) {
-            $APIKey = $Global:VTAPIKey
         }
     }
     Process {
@@ -849,11 +834,8 @@ function Submit-VTFile {
     Begin {
         $URI = 'http://www.virustotal.com/vtapi/v2/file/scan'
 
-        if (!(Test-Path variable:Global:VTAPIKey ) -and !($APIKey)) {
+        if (!($APIKey)) {
             NoAPIKeyError
-        }
-        elseif ((Test-Path variable:Global:VTAPIKey ) -and !($APIKey)) {
-            $APIKey = $Global:VTAPIKey
         }
     }
     Process {
@@ -1027,11 +1009,8 @@ function Get-VTAPIKeyInfo {
 
     Begin {
         $URI = 'http://www.virustotal.com/vtapi/v2/key/details'
-        if (!(Test-Path variable:Global:VTAPIKey ) -and !($APIKey)) {
+        if (!($APIKey)) {
             NoAPIKeyError
-        }
-        elseif ((Test-Path variable:Global:VTAPIKey ) -and !($APIKey)) {
-            $APIKey = $Global:VTAPIKey
         }
     }
     Process {
@@ -1136,11 +1115,8 @@ function Get-VTSpecialURL {
     Begin {
         
         $URI = 'https://www.virustotal.com/vtapi/v2/file/scan/upload_url'
-        if (!(Test-Path variable:Global:VTAPIKey ) -and !($APIKey)) {
+        if (!($APIKey)) {
             NoAPIKeyError
-        }
-        elseif ((Test-Path variable:Global:VTAPIKey ) -and !($APIKey)) {
-            $APIKey = $Global:VTAPIKey
         }
 
         Write-Verbose 'Verifying the API Key.'
@@ -1258,13 +1234,9 @@ function Get-VTFileComment {
 
     Begin {
         $URI = 'https://www.virustotal.com/vtapi/v2/comments/get'
-        if (!(Test-Path variable:Global:VTAPIKey ) -and !($APIKey)) {
+        if (!($APIKey)) {
             NoAPIKeyError
         }
-        elseif ((Test-Path variable:Global:VTAPIKey ) -and !($APIKey)) {
-            $APIKey = $Global:VTAPIKey
-        }
-
         Write-Verbose 'Verifying the API Key.'
         $KeyInfo = Get-VTAPIKeyInfo -APIKey $APIKey
         if ($KeyInfo.type -ne 'private') {
@@ -1389,11 +1361,8 @@ function Set-VTFileComment {
 
     Begin {
         $URI = 'https://www.virustotal.com/vtapi/v2/comments/put'
-        if (!(Test-Path variable:Global:VTAPIKey ) -and !($APIKey)) {
+        if (!($APIKey)) {
             NoAPIKeyError
-        }
-        elseif ((Test-Path variable:Global:VTAPIKey ) -and !($APIKey)) {
-            $APIKey = $Global:VTAPIKey
         }
 
         Write-Verbose 'Verifying the API Key.'
@@ -1556,13 +1525,9 @@ function Set-VTFileRescan {
 
     Begin {
         $URI = 'https://www.virustotal.com/vtapi/v2/file/rescan'
-        if (!(Test-Path variable:Global:VTAPIKey ) -and !($APIKey)) {
+        if (!($APIKey)) {
             NoAPIKeyError
         }
-        elseif ((Test-Path variable:Global:VTAPIKey ) -and !($APIKey)) {
-            $APIKey = $Global:VTAPIKey
-        }
-
         $Body = @{'apikey' = $APIKey }
 
         Write-Verbose 'Verifying the API Key.'
@@ -1700,11 +1665,8 @@ function Remove-VTFileRescan {
 
     Begin {
         $URI = 'https://www.virustotal.com/vtapi/v2/file/rescan/delete'
-        if (!(Test-Path variable:Global:VTAPIKey ) -and !($APIKey)) {
+        if (!($APIKey)) {
             NoAPIKeyError
-        }
-        elseif ((Test-Path variable:Global:VTAPIKey ) -and !($APIKey)) {
-            $APIKey = $Global:VTAPIKey
         }
 
         $Body = @{'apikey' = $APIKey }
@@ -1834,11 +1796,8 @@ function Get-VTFileScanReport {
 
     Begin {
         $URI = 'https://www.virustotal.com/vtapi/v2/file/report'
-        if (!(Test-Path variable:Global:VTAPIKey ) -and !($APIKey)) {
+        if (!($APIKey)) {
             NoAPIKeyError
-        }
-        elseif ((Test-Path variable:Global:VTAPIKey ) -and !($APIKey)) {
-            $APIKey = $Global:VTAPIKey
         }
 
         $Body = @{'apikey' = $APIKey }
@@ -1972,13 +1931,9 @@ function Get-VTFileBehaviourReport {
 
     Begin {
         $URI = 'https://www.virustotal.com/vtapi/v2/file/behaviour'
-        if (!(Test-Path variable:Global:VTAPIKey ) -and !($APIKey)) {
+        if (!($APIKey)) {
             NoAPIKeyError
         }
-        elseif ((Test-Path variable:Global:VTAPIKey ) -and !($APIKey)) {
-            $APIKey = $Global:VTAPIKey
-        }
-
         Write-Verbose 'Verifying the API Key.'
         $KeyInfo = Get-VTAPIKeyInfo -APIKey $APIKey
         if ($KeyInfo.type -ne 'private') {
@@ -2108,13 +2063,9 @@ function Get-VTFileSample {
 
     Begin {
         $URI = 'https://www.virustotal.com/vtapi/v2/file/download'
-        if (!(Test-Path variable:Global:VTAPIKey ) -and !($APIKey)) {
+        if (!($APIKey)) {
             Write-Error 'No VirusTotal API Key has been specified or set.'
         }
-        elseif ((Test-Path variable:Global:VTAPIKey ) -and !($APIKey)) {
-            $APIKey = $Global:VTAPIKey
-        }
-
         Write-Verbose 'Verifying the API Key.'
         $KeyInfo = Get-VTAPIKeyInfo -APIKey $APIKey
         if ($KeyInfo.type -ne 'private') {
@@ -2246,11 +2197,8 @@ function Get-VTFileNetworkTraffic {
 
     Begin {
         $URI = 'https://www.virustotal.com/vtapi/v2/file/network-traffic'
-        if (!(Test-Path variable:Global:VTAPIKey ) -and !($APIKey)) {
+        if (!($APIKey)) {
             throw 'No VirusTotal API Key has been specified or set.'
-        }
-        elseif ((Test-Path variable:Global:VTAPIKey ) -and !($APIKey)) {
-            $APIKey = $Global:VTAPIKey
         }
 
         Write-Verbose 'Verifying the API Key.'
@@ -2383,11 +2331,8 @@ function Search-VTAdvancedReversed {
 
     Begin {
         $URI = 'https://www.virustotal.com/vtapi/v2/file/search'
-        if (!(Test-Path variable:Global:VTAPIKey ) -and !($APIKey)) {
+        if (!($APIKey)) {
             Write-Error 'No VirusTotal API Key has been specified or set.'
-        }
-        elseif ((Test-Path variable:Global:VTAPIKey ) -and !($APIKey)) {
-            $APIKey = $Global:VTAPIKey
         }
 
         $Body = @{'apikey' = $APIKey
