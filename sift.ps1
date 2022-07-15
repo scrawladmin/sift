@@ -5,10 +5,10 @@
 
 .PARAMETER unlock
     sift -unlock
-    uses masterpassword to cache keys for use till terminal exits
+    uses masterpassword to unlock encrypted keys and cache for use till terminal exits
 .PARAMETER addkey 
     sift -addkey -neutrino
-    adds neutrino api key with masterpassword used as salt
+    adds neutrino api key with masterpassword used as salt to encrypted file to store
 .PARAMETER ipaddress
     IPv4 Address in Decimal
 .PARAMETER fqdn
