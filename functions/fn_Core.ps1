@@ -12,6 +12,7 @@ Function New-Request {
         Get-neuIPProbe $object
     }
     If ([switch]$ipblocklist) {
+        [string]$object = $ipaddress
         Get-neuIPBlockList $object
     }
     If ([switch]$hostrep) {
@@ -583,6 +584,9 @@ function Set-APIKey {
         }
         if ([switch]$fraudguard ) {
             $FolderName = "Fraudguard"
+        }
+        if ([switch]$mxtoolbox ) {
+            $FolderName = "MXtoolbox"
         }
         $ConfigName = 'api.key'
         $saltname = 'salt.rnd'

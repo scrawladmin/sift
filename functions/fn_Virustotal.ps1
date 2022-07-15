@@ -437,13 +437,15 @@ function Get-VTDomainReport {
             Write-host "detected_urls :$(($DomainReport.detected_urls).count)"
         }
         $t = $($DomainReport.detected_urls)
-        $properties = ($t | Get-Member -MemberType Properties).Name         
-        ForEach ($property in $properties) {
-            If ("$property") {
-                If ($t."$property") {
-                    $n = $property + ": " + $t."$property" 
-                    $table.Add($property, $t."$property")
-                    Write-log " [VirusTotal] $n"
+        if ($t ) {
+            $properties = ($t | Get-Member -MemberType Properties).Name         
+            ForEach ($property in $properties) {
+                If ("$property") {
+                    If ($t."$property") {
+                        $n = $property + ": " + $t."$property" 
+                        $table.Add($property, $t."$property")
+                        Write-log " [VirusTotal] $n"
+                    }
                 }
             }
         }

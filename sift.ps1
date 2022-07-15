@@ -95,6 +95,10 @@ Param(
     [switch]
     $fraudguard,
 
+    [Parameter(ParameterSetName = "set_key", Position = 1)]
+    [switch]
+    $mxtoolbox,
+
     [Parameter(ParameterSetName = "unlock_keys", Position = 1)]
     [switch]
     $unlock,

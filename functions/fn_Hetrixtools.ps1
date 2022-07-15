@@ -19,6 +19,7 @@ Function Get-hetrixIPblacklist {
             if ($ipaddress) {
                 Try {
                     $url = 'https://api.hetrixtools.com/v2/' + $Hetrixtoolskey + '/blacklist-check/ipv4/' + $ipaddress + '/'
+                    Write-Verbose $url
                     $response = Invoke-WebRequest -Method GET -Uri "$url"
                 }
                 Catch {

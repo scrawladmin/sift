@@ -23,17 +23,19 @@ Function Get-neuIPBlocklist {
     Process {
         if ($neutrinokeyuserid -and $neutrinokey ) {
             if ($ipaddress) {
-                $info = "" | Select-Object ip, 'user-id', 'api-key', 'vpn-lookup'
+                Write-Verbose $ipaddress
+                $info = "" | Select-Object 'ip', 'user-id', 'api-key', 'vpn-lookup'
                 $info.'user-id' = "$neutrinokeyuserid"
                 $info.'api-key' = "$neutrinokey"
                 $info.'vpn-lookup' = $true
-                $info.ip = $ipaddress
+                $info.'ip' = $ipaddress
                 if ($info) {
                     $params += $info
                     if ($params) {
                         $params = $params | ConvertTo-Json
                         if ($params) {
                             Try {
+                                Write-Verbose $params
                                 $response = Invoke-WebRequest -Method Post -Uri "https://neutrinoapi.net/ip-blocklist" -ContentType 'application/json' -Body $params
                             }
                             Catch {
