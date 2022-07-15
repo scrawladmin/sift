@@ -3,6 +3,12 @@
     A collection of PowerShell scripts to utilize 3rd party APIs and research IPs, URLs, and Domains
 .DESCRIPTION
 
+.PARAMETER unlock
+    sift -unlock
+    uses masterpassword to cache keys for use till terminal exits
+.PARAMETER addkey 
+    sift -addkey -neutrino
+    adds neutrino api key with masterpassword used as salt
 .PARAMETER ipaddress
     IPv4 Address in Decimal
 .PARAMETER fqdn
