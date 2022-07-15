@@ -543,7 +543,7 @@ function Get-VTURLReport {
     )
 
     Begin {
-        Write-debug "$($_.Exception.Message)"
+        Write-Verbose "Function: $($MyInvocation.Mycommand)"
         $URI = 'https://www.virustotal.com/vtapi/v2/url/report'
         
         if ($Scan) {

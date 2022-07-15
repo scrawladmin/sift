@@ -122,7 +122,7 @@ Function New-Request {
 
 }
 Function Get-Logo {
-    Write-Verbose "Function: Get-Logo"  
+    Write-Verbose "Function: $($MyInvocation.Mycommand)" 
     Write-Host "
     _________.__  _____  __   
    /   _____/|__|/ ____\/  |_ 
@@ -133,7 +133,7 @@ Function Get-Logo {
 " -F C
 }
 Function Set-Console {
-    Write-Verbose "Function: Set-Console"
+    Write-Verbose "Function: $($MyInvocation.Mycommand)"
     If ( $logo -ne "off") {
         if (!$PSCmdlet.MyInvocation.BoundParameters["Verbose"].IsPresent) {
             Clear-Host
@@ -159,7 +159,7 @@ Function Write-log {
 }
 
 Function Test-PSversion {
-    Write-debug "$($_.Exception.Message)"
+    Write-Verbose "Function: $($MyInvocation.Mycommand)"
     $psSeven = ( $PSVersionTable.PSVersion.Major -eq 7 ) 
     If ($psSeven -eq $true ) {
         $script:psSeven = 1
@@ -619,7 +619,7 @@ function Read-APIKey {
                 $SaltBytes = Get-Content -Encoding utf32 -Path "$($env:AppData)\$FolderName\salt.rnd" 
 
 
-                Write-Debug -Message "Secure string is $($ConfigFileContent)"
+                Write-Verbose -Message "Secure string is $($ConfigFileContent)"
                 $Credentials = New-Object System.Management.Automation.PSCredential -ArgumentList 'user', $MasterPassword
 
                 # Derive Key, IV and Salt from Key

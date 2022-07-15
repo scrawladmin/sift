@@ -43,7 +43,7 @@ Function Get-WhoIs {
         Catch {
             $errMsg = "Sorry. There was an error retrieving WhoIs information for $IPAddress. $($_.exception.message)"
             $host.ui.WriteErrorLine($errMsg)
-            Write-debug "$($_.exception.message)"
+            Write-Error "$($_.exception.message)"
         }
 
         if ($r.net) {

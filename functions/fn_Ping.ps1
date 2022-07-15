@@ -13,7 +13,7 @@ Function Ping-Flood {
     ) 
     Begin {
         $totalLatencyarray = @()
-        Write-debug "$($_.Exception.Message)"
+        Write-Verbose "Function: $($MyInvocation.Mycommand)"
     }
     Process {
         If ($psSeven ) {
@@ -59,7 +59,7 @@ Function Ping-Flood {
     }
 }
 Function Submit-Ping {
-    Write-debug "$($_.Exception.Message)"
+    Write-verbose "$($_.Exception.Message)"
     if ($psseven) {
         $totalminmax = $totalLatencyarray | measure -AllStats
         Write-verbose "Count:           $($totalminmax.Count)"

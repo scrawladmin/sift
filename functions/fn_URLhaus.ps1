@@ -21,7 +21,7 @@ Function Get-URLhausQuery {
                 $res = Invoke-WebRequest -Method Post -Uri 'https://urlhaus-api.abuse.ch/v1/url/'-Body $data
             }
             Catch {
-                Write-debug "$($_.Exception.Message)"
+                write-warning "$($_.Exception.Message)"
                 return
             }
             if ($res) {

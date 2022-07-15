@@ -35,7 +35,7 @@ Function Get-urlscanio {
                 $response = Invoke-WebRequest "https://urlscan.io/api/v1/scan/" -Method POST -ContentType 'application/json' -Headers $Info -body $data
             }
             Catch {
-                Write-debug "$($_.Exception.Message)" 
+                write-warning "$($_.Exception.Message)" 
                 return
             }
             if ($response) {

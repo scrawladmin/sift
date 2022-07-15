@@ -219,7 +219,8 @@ Function Get-PerHopRTT {
           # $HopRTT = $HopResults.RoundtripTime
         }
         catch {
-          Write-debug "$($_.Exception.Message)"
+          write-warning "$($_.Exception.Message)"
+          return
         }
         $HopRTT = $HopResults.Latency 
       }
@@ -228,7 +229,8 @@ Function Get-PerHopRTT {
           $HopResults = Test-Connection $Hop -Count 1 -EA SilentlyContinue -BufferSize 32 -Delay 1
         }
         Catch {
-          Write-debug "$($_.Exception.Message)"
+          write-warning "$($_.Exception.Message)"
+          return
         }
         $HopRTT = $HopResults.ResponseTime
       }
@@ -264,7 +266,7 @@ Function Get-PerHopRTT {
     
     
     $stdDev = Get-StandardDeviation $PerHopRTTArr 
-    # Write-debug "stddev $stdDev"
+    # Write-verbose "stddev $stdDev"
     if ($psSeven) {
       If (($HopResults.Latency -eq 0) -and ($HopResults.Status -ne 'Success' )) {
         #100% loss, but name resolves
@@ -296,9 +298,9 @@ Function Get-PerHopRTT {
     $HopRTTMax = "-"
     $HopRTTLast = '-'
   } #End TimedOut condition
-  #Write-debug "RTTmin = $HopRTTMin"
-  #Write-debug "HopRTTMax = $HopRTTMax"
-  #Write-debug "HopRTTAvg = $HopRTTAvg"
+  #Write-Verbose "RTTmin = $HopRTTMin"
+  #Write-Verbose "HopRTTMax = $HopRTTMax"
+  #Write-Verbose "HopRTTAvg = $HopRTTAvg"
   $SAPSObj = [PSCustomObject]@{
     "hostname" = $HopName.NameHost
     "Nr"       = $i

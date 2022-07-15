@@ -27,7 +27,7 @@ Function Get-shodanip {
                 $response = Invoke-WebRequest -Method Get -Uri $url
             }
             catch {
-                Write-debug "$($_.Exception.Message)" 
+                write-warning "$($_.Exception.Message)" 
                 return
             }
         }

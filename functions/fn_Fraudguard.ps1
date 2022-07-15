@@ -23,7 +23,7 @@ Function Get-fraudguardiprep {
             }   
         }
         Else {
-            Write-Warning "Requires Fraudguard User and Pass" -InformationAction Continue
+            write-warning "Requires Fraudguard User and Pass" -InformationAction Continue
             return
         }
     }

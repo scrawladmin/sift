@@ -22,7 +22,7 @@ Function Get-ippulse {
                 $response = Invoke-WebRequest -Method Get -Uri "$url" -ContentType 'application/json'
             }
             Catch {
-                Write-debug "$($_.Exception.Message)" 
+                Write-error "$($_.Exception.Message)" 
             }
             if ($response) {
                 $t = $response.Content | ConvertFrom-Json
@@ -87,7 +87,7 @@ Function Get-fqdnpulse {
                 $response = Invoke-WebRequest -Method Get -Uri "$url" -ContentType 'application/json'
             }
             Catch {
-                Write-debug "$($_.Exception.Message)" 
+                Write-error "$($_.Exception.Message)" 
             }
             if ($response) {
                 $t = $response.Content | ConvertFrom-Json

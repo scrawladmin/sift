@@ -37,7 +37,7 @@ Function Get-neuIPBlocklist {
                                 $response = Invoke-WebRequest -Method Post -Uri "https://neutrinoapi.net/ip-blocklist" -ContentType 'application/json' -Body $params
                             }
                             Catch {
-                                Write-debug "$($_.Exception.Message)" 
+                                write-warning "$($_.Exception.Message)" 
                                 return
                             }
                             if ($response) {
@@ -113,7 +113,7 @@ Function Get-neuIPProbe {
                         }
                         Catch {
                             $($_.ErrorDetails.Message)
-                            Write-debug "$($_.ErrorDetails.Message)" 
+                            write-warning "$($_.ErrorDetails.Message)" 
                             return
                         }
                         if ($response) {
@@ -193,7 +193,7 @@ Function Get-neuHostRep {
                             $response = Invoke-WebRequest -Method Post -Uri "https://neutrinoapi.net/host-reputation" -ContentType 'application/json' -Body $params
                         }
                         Catch {
-                            Write-debug "$($_.Exception.Message)" 
+                            write-warning "$($_.Exception.Message)" 
                             return
                         }
                         if ($response) {
@@ -270,7 +270,7 @@ Function Get-neuIPInfo {
                                 $response = Invoke-WebRequest -Method Post -Uri "https://neutrinoapi.net/ip-info" -ContentType 'application/json' -Body $params
                             }
                             catch {
-                                Write-debug "$($_.Exception.Message)" 
+                                write-warning "$($_.Exception.Message)" 
                                 return
                             }
                             if ($response) {
@@ -354,7 +354,7 @@ Function Get-neuURLInfo {
                     $response = Invoke-WebRequest -Method Post -Uri "https://neutrinoapi.net/url-info" -ContentType 'application/json' -Body $params
                 }
                 Catch {
-                    Write-debug "$($_.Exception.Message)" 
+                    write-warning "$($_.Exception.Message)" 
                     return
                 }
                 if ($response) {
@@ -394,7 +394,7 @@ Function Get-neuEmailvalidate {
     # Parse, validate and clean an email address.
     # Parameter	Type: email
     # Optional: fix-typos boolean Automatically attempt to fix typos in the address
-    Write-debug"$($_.Exception.Message)"
+    Write-verbose"$($_.Exception.Message)"
     if ($neutrinokeyuserid) {
         if ($neutrinokey) {
             if ($email) {
@@ -407,7 +407,7 @@ Function Get-neuEmailvalidate {
                             $response = Invoke-WebRequest -Method Post -Uri "https://neutrinoapi.net/email-validate" -ContentType 'application/json' -Body $params
                         }
                         Catch {
-                            Write-debug "$($_.Exception.Message)" 
+                            write-warning "$($_.Exception.Message)" 
                             return
                         }
                         if ($response) {
@@ -426,7 +426,7 @@ Function Get-neuEmailverify {
     # SMTP based email address verification. Verify real users and filter out low-quality email addresses.
     # Parameter	Type: email
     # Optional: fix-typos boolean Automatically attempt to fix typos in the address
-    Write-debug"$($_.Exception.Message)"
+    Write-Verbose "Function: $($MyInvocation.Mycommand)"
     if ($neutrinokeyuserid) {
         if ($neutrinokey) {
             if ($email) {

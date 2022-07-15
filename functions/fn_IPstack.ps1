@@ -22,7 +22,7 @@ Function Get-ipstack {
                     $response = Invoke-WebRequest -Method Post -Uri "$url" -ContentType 'application/json'
                 }
                 Catch {
-                    Write-debug "$($_.Exception.Message)" 
+                    write-warning "$($_.Exception.Message)" 
                     return
                 }
                 if ($response) {
@@ -49,7 +49,7 @@ Function Get-ipstack {
                 }
             }
             Else {
-                Write-Warning "Requires IPstack API Key" -InformationAction Continue
+                write-warning "Requires IPstack API Key" -InformationAction Continue
                 return
             }
         }

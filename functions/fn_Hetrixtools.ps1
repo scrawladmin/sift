@@ -22,7 +22,7 @@ Function Get-hetrixIPblacklist {
                     $response = Invoke-WebRequest -Method GET -Uri "$url"
                 }
                 Catch {
-                    Write-debug "$($_.Exception.Message)" 
+                    write-warning "$($_.Exception.Message)" 
                     return
                 }
                 if ($response) {
@@ -50,7 +50,7 @@ Function Get-hetrixIPblacklist {
             }
         }
         Else {
-            Write-Warning "Requires Hetrix API Key" -InformationAction Continue
+            write-warning "Requires Hetrix API Key" -InformationAction Continue
             return
         }
     }
@@ -91,7 +91,8 @@ Function Get-hetrixDomainblacklist {
                     $response = Invoke-WebRequest -Method GET -Uri "$url"
                 }
                 Catch {
-                    Write-debug "$($_.Exception.Message)" 
+                    write-warning "$($_.Exception.Message)" 
+                    return
                 }
                 if ($response) {
                     $t = $response.Content | ConvertFrom-Json
@@ -114,7 +115,7 @@ Function Get-hetrixDomainblacklist {
             }
         }
         Else {
-            Write-Warning "Requires Hetrix API Key" -InformationAction Continue
+            write-warning "Requires Hetrix API Key" -InformationAction Continue
             return
         }
     }
