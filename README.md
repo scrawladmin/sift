@@ -58,7 +58,7 @@ REMARKS
 INSTALL   
 
    1. Download, Unzip, Add to Path in Powershell User Profile.
-   2. Add API info with -addkey param
+   2. Add API info with -addkey switch
 
 
 
