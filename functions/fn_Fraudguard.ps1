@@ -14,16 +14,22 @@ Function Get-fraudguardiprep {
     Begin {
         Write-Verbose "Function: $($MyInvocation.Mycommand)"
         $apiname = 'FRAUDGUARD'
-        if ($fraudguarduser -and $Fraudguardkey) {
-            $pair = "$($fraudguarduser):$($Fraudguardkey)"
-            $encodedCreds = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes($pair))
-            $basicAuthValue = "Basic $encodedCreds"
-            $Headers = @{
-                Authorization = $basicAuthValue
-            }   
+        if ($Fraudguardkey) {
+            if ($fraudguarduserid) {
+                $pair = "$($fraudguarduserid):$($Fraudguardkey)"
+                $encodedCreds = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes($pair))
+                $basicAuthValue = "Basic $encodedCreds"
+                $Headers = @{
+                    Authorization = $basicAuthValue
+                }  
+            }
+            Else {
+                write-warning "Requires Fraudguard User" -InformationAction Continue
+                return
+            } 
         }
         Else {
-            write-warning "Requires Fraudguard User and Pass" -InformationAction Continue
+            write-warning "Requires Fraudguard Pass" -InformationAction Continue
             return
         }
     }
