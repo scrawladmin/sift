@@ -39,18 +39,23 @@ Function Get-urlscanio {
                 return
             }
             if ($response) {
-                $name = 'URLscan.io' | Trace-word -words 'URLscan.io'
-                $t = $response.Content | ConvertFrom-Json
-                $properties = ($t | Get-Member -MemberType Properties).Name
-                [hashtable]$table = @{
-                    PSTypeName = "URLscan.io"
+                If ([switch]$raw) {
+                    $response
                 }
-                ForEach ($property in $properties) {
-                    If ($t."$property") {
+                else {
+                    $name = 'URLscan.io' | Trace-word -words 'URLscan.io'
+                    $t = $response.Content | ConvertFrom-Json
+                    $properties = ($t | Get-Member -MemberType Properties).Name
+                    [hashtable]$table = @{
+                        PSTypeName = "URLscan.io"
+                    }
+                    ForEach ($property in $properties) {
                         If ($t."$property") {
-                            $n = $property + ": " + $t."$property" 
-                            $table.Add($property, $t."$property")
-                            Write-log " [URLscan.io] $n"
+                            If ($t."$property") {
+                                $n = $property + ": " + $t."$property" 
+                                $table.Add($property, $t."$property")
+                                Write-log " [URLscan.io] $n"
+                            }
                         }
                     }
                 }

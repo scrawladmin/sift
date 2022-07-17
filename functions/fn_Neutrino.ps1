@@ -279,19 +279,21 @@ Function Get-neuIPInfo {
                                 If ([switch]$raw) {
                                     $response
                                 }
-                                $response = $response.Content | ConvertFrom-Json
-                                $name = 'Neutrino' | Trace-word -words 'Neutrino'
-                                $t = $response
-                                $properties = ($t | Get-Member -MemberType Properties).Name
-                                [hashtable]$table = @{
-                                    PSTypeName = "Neutrino"
-                                }
-                                ForEach ($property in $properties) {
-                                    If ($t."$property") {
+                                else {
+                                    $response = $response.Content | ConvertFrom-Json
+                                    $name = 'Neutrino' | Trace-word -words 'Neutrino'
+                                    $t = $response
+                                    $properties = ($t | Get-Member -MemberType Properties).Name
+                                    [hashtable]$table = @{
+                                        PSTypeName = "Neutrino"
+                                    }
+                                    ForEach ($property in $properties) {
                                         If ($t."$property") {
-                                            $n = $property + ": " + $t."$property" 
-                                            $table.Add($property, $t."$property")
-                                            Write-log " [Neutrino] $n"
+                                            If ($t."$property") {
+                                                $n = $property + ": " + $t."$property" 
+                                                $table.Add($property, $t."$property")
+                                                Write-log " [Neutrino] $n"
+                                            }
                                         }
                                     }
                                 }
@@ -396,7 +398,7 @@ Function Get-neuEmailvalidate {
     # Parse, validate and clean an email address.
     # Parameter	Type: email
     # Optional: fix-typos boolean Automatically attempt to fix typos in the address
-    Write-verbose"$($_.Exception.Message)"
+    Write-Verbose "Function: $($MyInvocation.Mycommand)"
     if ($neutrinokeyuserid) {
         if ($neutrinokey) {
             if ($email) {
@@ -441,7 +443,7 @@ Function Get-neuEmailverify {
                             $response = Invoke-WebRequest -Method Post -Uri "https://neutrinoapi.net/email-verify" -ContentType 'application/json' -Body $params
                         }
                         Catch {
-                            Write-log "$($_.Exception.Message)" 
+                            Write-warning "$($_.Exception.Message)" 
                             return
                         }
                         if ($response) {
@@ -467,11 +469,11 @@ Function Get-neuHTMLclean {
     # basic-html: allow advanced text formatting and hyper links
     # basic-html-with-images: same as basic html but also allows image tags
     # advanced-html: same as basic html with images but also allows many more common HTML tags like table, ul, dl, pre
-    write-log "$($_.Exception.Message)"
+    Write-Verbose "Function: $($MyInvocation.Mycommand)"
     if ($neutrinokeyuserid) {
         if ($neutrinokey) {
             if ($html) {
-                $Info = [PSCustomObject]@{ 'user-id' = "$neutrinokeyuserid"; 'api-key' = "$neutrinokey"; content = "$html" }
+                $Info = [PSCustomObject]@{ 'user-id' = "$neutrinokeyuserid"; 'api-key' = "$neutrinokey"; content = "$html" ; 'output-type' = "plain-text"}
                 $params += $Info
                 if ($params) {
                     $params = $params | ConvertTo-Json
@@ -480,12 +482,46 @@ Function Get-neuHTMLclean {
                             $response = Invoke-WebRequest -Method Post -Uri "https://neutrinoapi.net/html-clean" -ContentType 'application/json' -Body $params
                         }
                         Catch {
-                            Write-log "$($_.Exception.Message)" 
+                            Write-warning "$($_.Exception.Message)" 
                             return
                         }
                         if ($response) {
                             $name = 'Neutrino' | Trace-word -words 'Neutrino'
-                            $response.Content | ConvertFrom-Json
+                            $response.Content
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+Function Get-neuPhoneValidate {
+    # -phonevalidate
+    param($phone)
+    # Parse, validate and get location information about a phone number.
+    # Use this API to validate local and international phone numbers in any country. 
+    # You can determine the location of the number and also reformat the number into local and international dialing formats.
+    
+    Write-Verbose "Function: $($MyInvocation.Mycommand)"
+    if ($neutrinokeyuserid) {
+        if ($neutrinokey) {
+            if ($html) {
+                $Info = [PSCustomObject]@{ 'user-id' = "$neutrinokeyuserid"; 'api-key' = "$neutrinokey"; number = "$phone" }
+                $params += $Info
+                if ($params) {
+                    $params = $params | ConvertTo-Json
+                    if ($params) {
+                        try {
+                            $response = Invoke-WebRequest -Method Post -Uri "https://neutrinoapi.net/phone-validate" -ContentType 'application/json' -Body $params
+                        }
+                        Catch {
+                            Write-Warning "$($_.Exception.Message)" 
+                            return
+                        }
+                        if ($response) {
+                            $name = 'Neutrino' | Trace-word -words 'Neutrino'
+                            $response.Content
                         }
                     }
                 }

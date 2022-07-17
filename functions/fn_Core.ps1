@@ -30,9 +30,9 @@ Function New-Request {
     If ([switch]$emailverify) {
         Get-neuEmailverify $object
     }
-    # If ([switch]$htmlclean) {
-    #     Get-neuHTMLclean $object
-    # }
+    If ([switch]$htmlclean) {
+        Get-neuHTMLclean $object
+    }
     If ([switch]$traceroute) {
         Test-MTR $target ; ; Start-mtr $target
     }
@@ -114,13 +114,18 @@ Function New-Request {
     If ([switch]$urlquery) {
         Get-URLhausQuery $object
     }
+    If ([switch]$phonevalidate) {
+        Get-neuPhoneValidate $object
+    }
     If ([string]$APIKey -and [securestring]$masterpassword) {
         set-APIKey $APIKey $masterpassword
     }
     If ([switch]$unlock -and [securestring]$masterpassword) {
         Read-APIKey $masterpassword
     }
-
+    If ([switch]$pwned -and [securestring]$p) {
+        Test-Pwned $p
+    }
 }
 Function Get-Logo {
     Write-Verbose "Function: $($MyInvocation.Mycommand)" 
@@ -539,19 +544,17 @@ function Get-StandardDeviation {
 
 function Set-APIKey {
     [CmdletBinding()]
-    Param
-    (
-        # API Key.
+    Param (
         [Parameter(Mandatory = $true)]
-        [string]$APIKey,
+        [securestring]$APIKey,
         [securestring]$MasterPassword
     )
 
     Begin {
     }
     Process {
-        $SecureKeyString = ConvertTo-SecureString -String $APIKey -AsPlainText -Force
-
+        # $SecureKeyString = ConvertTo-SecureString -String $APIKey -AsPlainText -Force
+        $SecureKeyString = $APIKey
         # Generate a random secure Salt
         $SaltBytes = New-Object byte[] 32
         $RNG = New-Object System.Security.Cryptography.RNGCryptoServiceProvider
@@ -634,7 +637,7 @@ function Read-APIKey {
 
                 # Decrypt the secure string.
                 $SecureStringToBSTR = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($SecString)
-                $global:APIKey = [Runtime.InteropServices.Marshal]::PtrToStringAuto($SecureStringToBSTR)
+                $APIKey = [Runtime.InteropServices.Marshal]::PtrToStringAuto($SecureStringToBSTR)
 
                 # Set session variable with the key.
                 Write-Verbose -Message "Setting key $($APIKey) to variable for use by other commands."

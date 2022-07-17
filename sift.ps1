@@ -57,15 +57,22 @@ Param(
     [string[]]
     $filepath,
 
-    #  ! HIT THE MAX AMOUNT OF OF PARAMETERSETNAMEs !
-    # [Parameter(ParameterSetName = "neutrino-urlemail", Position = 0)]
-    # [Parameter(ParameterSetName = "neutrino-urlverify", Position = 0)]
-    # [string[]]
-    # $email,
+    [Parameter(ParameterSetName = "email", Position = 0)]
+    [string[]]
+    $email,
+
+    [Parameter(ParameterSetName = "html", Position = 0)]
+    [string[]]
+    $html,
+
 
     [Parameter(ParameterSetName = "set_key", Position = 0)]
     [switch]
     $addkey,
+
+    [Parameter(ParameterSetName = "pwned", Position = 0)]
+    [switch]
+    $pwned,
 
     [Parameter(ParameterSetName = "set_key", Position = 1)]
     [switch]
@@ -125,18 +132,21 @@ Param(
     [switch]
     $urlinfo,
 
-    #  ! HIT THE MAX AMOUNT OF OF PARAMETERSETNAMEs !
-    # [Parameter(ParameterSetName = "neutrino-urlemail", Position = 1)]
-    # [switch]
-    # $emailvalidate,
+    [Parameter(ParameterSetName = "email", Position = 1)]
+    [switch]
+    $emailvalidate,
 
-    # [Parameter(ParameterSetName = "neutrino-urlverify", Position = 1)]
-    # [switch]
-    # $emailverify,
+    [Parameter(ParameterSetName = "email", Position = 1)]
+    [switch]
+    $emailverify,
 
-    # [Parameter(ParameterSetName = "neutrino-html", Position = 1)]
-    # [switch]
-    # $htmlclean,
+    [Parameter(ParameterSetName = "html", Position = 1)]
+    [switch]
+    $htmlclean,
+
+    [Parameter(ParameterSetName = "phone", Position = 1)]
+    [switch]
+    $phone,
 
     [Parameter(ParameterSetName = "mtr", Position = 1)]
     [switch]
@@ -232,18 +242,14 @@ Param(
 
     [Parameter(ParameterSetName = "fqdn", Position = 0)]
     [switch]
-    $fqdnpulse
+    $fqdnpulse,
 
-    # [Parameter(Mandatory = $false, ParameterSetName = "ipaddress", Position = 2)]
-    # [Parameter(Mandatory = $false, ParameterSetName = "ipaddress", Position = 2)]
-    # [Parameter(Mandatory = $false, ParameterSetName = "ipaddress", Position = 2)]
-    # [Parameter(Mandatory = $false, ParameterSetName = "ipaddress", Position = 2)]
-    # [Parameter(Mandatory = $false, ParameterSetName = "ipaddress", Position = 2)]
-    # [Parameter(Mandatory = $false, ParameterSetName = "fqdn", Position = 2)]
-    # [Parameter(Mandatory = $false, ParameterSetName = "neutrino-hostrep2", Position = 2)]
-    # [Parameter(Mandatory = $false, ParameterSetName = "ipaddress", Position = 2)]
-    # [switch]
-    # $raw
+    [Parameter(ParameterSetName = "phone", Position = 0)]
+    [switch]
+    $phonevalidate,
+
+    [switch]
+    $raw
 )
 
 $script:currentdir = $PSScriptRoot
@@ -271,14 +277,21 @@ ElseIf ($url) {
 ElseIf ($email) {
     New-Request $email
 }
-# ElseIf ($html) {
-#     New-Request $html
-# }
+ElseIf ($html) {
+    New-Request $html
+}
+ElseIf ($phone) {
+    New-Request $phone
+}
 ElseIf ($target) {
     New-Request $target
 }
 ElseIf ($filepath) {
     New-Request $filepath
+}
+ElseIf ([switch]$pwned) {
+    $p = read-host "Test a Password" -AsSecureString
+    New-request $p 
 }
 ElseIf ([switch]$unlock) {
     $masterpassword = read-host "Enter a masterPassword" -AsSecureString
@@ -286,7 +299,7 @@ ElseIf ([switch]$unlock) {
 }
 ElseIf ([switch]$addkey) {
     $masterpassword = read-host "Enter a masterPassword" -AsSecureString
-    $APIKey = read-host "Enter api key"
+    $APIKey = read-host "Enter api key" -AsSecureString
     New-request $APIKey $masterpassword 
 }
 Else {

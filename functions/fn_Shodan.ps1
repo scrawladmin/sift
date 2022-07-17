@@ -34,17 +34,19 @@ Function Get-shodanip {
         If ($response) {
             $t = $response.Content | ConvertFrom-Json
         }
-        $name = 'SHODAN' | Trace-word -words 'SHODAN'
-        $properties = ($t | Get-Member -MemberType Properties).Name
-        [hashtable]$table = @{
-            PSTypeName = 'SHODAN'
-        }
-        ForEach ($property in $properties) {
-            If ($t."$property") {
+        else {
+            $name = 'SHODAN' | Trace-word -words 'SHODAN'
+            $properties = ($t | Get-Member -MemberType Properties).Name
+            [hashtable]$table = @{
+                PSTypeName = 'SHODAN'
+            }
+            ForEach ($property in $properties) {
                 If ($t."$property") {
-                    $n = $property + ": " + $t."$property" 
-                    $table.Add($property, $t."$property")
-                    Write-log " [SHODAN] $n"
+                    If ($t."$property") {
+                        $n = $property + ": " + $t."$property" 
+                        $table.Add($property, $t."$property")
+                        Write-log " [SHODAN] $n"
+                    }
                 }
             }
         }
