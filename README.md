@@ -45,14 +45,19 @@ DESCRIPTION
 
 RELATED LINKS
     
-    https://github.com/scrawladmin/sift
-    https://gist.github.com/tylerapplebaum/dc527a3bd875f11871e2
-    https://github.com/darkoperator/Posh-VirusTotal
-    https://www.powershellgallery.com/packages/MxLookup/1.0.0
-    https://www.powershellgallery.com/packages/PSScriptTools/2.9.0/Content/functions%5CGet-WhoIs.ps1
-    https://github.com/PrateekKumarSingh/Graphical
-    https://gist.github.com/PrateekKumarSingh/715b0576a0cd08769b967db7a86355ff
-    https://github.com/copdips/PSScripts/blob/master/Text/Select-ColorString.ps1
+https://www.neutrinoapi.com/   
+https://mxtoolbox.com/c/products/mxtoolboxapi   
+https://otx.alienvault.com/api   
+https://fraudguard.io/   
+https://developer.shodan.io/   
+https://www.virustotal.com/gui/my-apikey   
+https://docs.hetrixtools.com/api/v3/   
+https://urlscan.io/docs/api/   
+https://ipstack.com/api-key   
+https://haveibeenpwned.com/API/v2   
+https://whois.arin.net/   
+https://urlhaus.abuse.ch/api/   
+
 
 
 REMARKS
@@ -68,4 +73,7 @@ INSTALL
 
    1. Download, Unzip, Add to Path in Powershell User Profile.
    2. Add API info with -addkey switch
+
+
+
 
