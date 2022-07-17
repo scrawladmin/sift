@@ -12,22 +12,31 @@ SYNTAX
 
     sift.ps1 [[-ipaddress] <IPAddress[]>] [[-ipblocklist]] [[-ipprobe]] [[-hostrep]]
     [[-ipinfo]] [[-ping]] [[-whois]] [[-ipreport]] [[-iplookup]] [[-iprep]] [[-ipservices]] [[-ptr]] [[-ipblacklist]]
-    [[-ippulse]] [<CommonParameters>]
+    [[-ippulse]] [-raw] [<CommonParameters>]
 
     sift.ps1 [[-fqdn] <String[]>] [[-hostrep]] [[-domainreport]] [[-mx]] [[-a]]
-    [[-dns]] [[-spf]] [[-txt]] [[-soa]] [[-blacklist]] [[-fqdnblacklist]] [[-fqdnpulse]] [<CommonParameters>]
+    [[-dns]] [[-spf]] [[-txt]] [[-soa]] [[-blacklist]] [[-fqdnblacklist]] [[-fqdnpulse]] [-raw] [<CommonParameters>]
 
-    sift.ps1 [[-target] <Object>] [[-traceroute]] [<CommonParameters>]
+    sift.ps1 [[-target] <Object>] [[-traceroute]] [-raw] [<CommonParameters>]
 
     sift.ps1 [[-url] <String[]>] [[-hostrep]] [[-urlinfo]] [[-urlreport]] [[-urlscan]]
-    [[-urlquery]] [<CommonParameters>]
+    [[-urlquery]] [-raw] [<CommonParameters>]
 
-    sift.ps1 [[-filepath] <String[]>] [[-filereport]] [<CommonParameters>]
+    sift.ps1 [[-filepath] <String[]>] [[-filereport]] [-raw] [<CommonParameters>]
+
+    sift.ps1 [[-email] <String[]>] [[-emailvalidate]] [[-emailverify]] [-raw]
+    [<CommonParameters>]
+
+    sift.ps1 [[-html] <String[]>] [[-htmlclean]] [-raw] [<CommonParameters>]
 
     sift.ps1 [[-addkey]] [[-neutrino]] [[-virustotal]] [[-ipstack]] [[-urlscanio]]
-    [[-shodan]] [[-hetrix]] [[-fraudguard]] [<CommonParameters>]
+    [[-shodan]] [[-hetrix]] [[-fraudguard]] [[-mxtoolbox]] [-raw] [<CommonParameters>]
 
-    sift.ps1 [[-unlock]] [<CommonParameters>]
+    sift.ps1 [[-pwned]] [-raw] [<CommonParameters>]
+
+    sift.ps1 [[-unlock]] [-raw] [<CommonParameters>]
+
+    sift.ps1 [[-phone]] [[-phonevalidate]] [-raw] [<CommonParameters>]
 
 
 DESCRIPTION
@@ -59,7 +68,4 @@ INSTALL
 
    1. Download, Unzip, Add to Path in Powershell User Profile.
    2. Add API info with -addkey switch
-
-
-
 
