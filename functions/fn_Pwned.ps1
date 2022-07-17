@@ -33,8 +33,8 @@ Function Test-Pwned {
         }
         if ($response) {
             $name = 'haveibeenpwned' | Trace-word -words 'haveibeenpwned'
-            Add-Content -Path pwned.txt -Value $response
-            $r = gc pwned.txt
+            Add-Content -Path datasets.temp -Value $response
+            $r = gc datasets.temp
             $r | ForEach-Object {
                 if ($_ -like "$hashSuf*" ) {
                     $r = $_.split(':')
@@ -50,7 +50,7 @@ Function Test-Pwned {
             if (!($result)) {
                 Write-Host "No Matching Data Sets" -BackgroundColor Green -ForegroundColor Black 
             }   
-            rm pwned.txt    
+            rm datasets.temp    
         }
     }
 }
