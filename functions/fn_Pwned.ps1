@@ -33,24 +33,23 @@ Function Test-Pwned {
         }
         if ($response) {
             $name = 'haveibeenpwned' | Trace-word -words 'haveibeenpwned'
-            Add-Content -Path datasets.temp -Value $response
-            $r = gc datasets.temp
-            $r | ForEach-Object {
-                if ($_ -like "$hashSuf*" ) {
-                    $r = $_.split(':')
-                    $result = [pscustomobject]@{
-                        PSTypeName = "haveibeenpwned"
-                        Dataset    = $r[0]
-                        Count      = $r[1]
-                    }
-                    Write-Host "Match Found " -BackgroundColor Red -ForegroundColor Black 
-                    $result   
+            Add-Content -Path datasets.temp -Value $response -Force
+            $d = "datasets.temp"
+            $results = @()
+             Select-String -Pattern $hashSuf -Path $d | ForEach-Object {
+                $_.Line | ForEach-Object {
+                    $r = $_ -split ':'
+                    $results += new-object psobject -property @{Dataset = $r[0]; Count = $r[1] }
                 } 
-            } 
-            if (!($result)) {
+            }
+            if (!($results)) {
                 Write-Host "No Matching Data Sets" -BackgroundColor Green -ForegroundColor Black 
-            }   
-            rm datasets.temp    
+            }
+            else {
+                Write-Host "Match Found " -BackgroundColor Red -ForegroundColor Black    
+                $results 
+            }
+            rm datasets.temp -Force
         }
     }
 }
