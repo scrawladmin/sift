@@ -40,6 +40,8 @@ Function Test-Pwned {
                 $_.Line | ForEach-Object {
                     $r = $_ -split ':'
                     $results += new-object psobject -property @{Dataset = $r[0]; Count = $r[1] }
+                    Write-log " [haveibeenpwned] $($hash)"
+                    Write-log " [haveibeenpwned] $($results)"
                 } 
             }
             if (!($results)) {
