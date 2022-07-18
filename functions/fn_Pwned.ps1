@@ -43,7 +43,7 @@ Function Test-Pwned {
                 } 
             }
             if (!($results)) {
-                Write-Host "No Matching Data Sets" -BackgroundColor Green -ForegroundColor Black 
+                Write-Host "No Matching Datasets" -BackgroundColor Green -ForegroundColor Black 
             }
             else {
                 Write-Host "Match Found " -BackgroundColor Red -ForegroundColor Black    
