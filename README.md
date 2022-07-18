@@ -10,33 +10,33 @@ SYNOPSIS
 SYNTAX
     
 
-    sift.ps1 [[-ipaddress] <IPAddress[]>] [[-ipblocklist]] [[-ipprobe]] [[-hostrep]]
+    sift [[-ipaddress] <IPAddress[]>] [[-ipblocklist]] [[-ipprobe]] [[-hostrep]]
     [[-ipinfo]] [[-ping]] [[-whois]] [[-ipreport]] [[-iplookup]] [[-iprep]] [[-ipservices]] [[-ptr]] [[-ipblacklist]]
     [[-ippulse]] [-raw] [<CommonParameters>]
 
-    sift.ps1 [[-fqdn] <String[]>] [[-hostrep]] [[-domainreport]] [[-mx]] [[-a]]
+    sift [[-fqdn] <String[]>] [[-hostrep]] [[-domainreport]] [[-mx]] [[-a]]
     [[-dns]] [[-spf]] [[-txt]] [[-soa]] [[-blacklist]] [[-fqdnblacklist]] [[-fqdnpulse]] [-raw] [<CommonParameters>]
 
-    sift.ps1 [[-target] <Object>] [[-traceroute]] [-raw] [<CommonParameters>]
+    sift [[-target] <Object>] [[-traceroute]] [-raw] [<CommonParameters>]
 
-    sift.ps1 [[-url] <String[]>] [[-hostrep]] [[-urlinfo]] [[-urlreport]] [[-urlscan]]
+    sift [[-url] <String[]>] [[-hostrep]] [[-urlinfo]] [[-urlreport]] [[-urlscan]]
     [[-urlquery]] [-raw] [<CommonParameters>]
 
-    sift.ps1 [[-filepath] <String[]>] [[-filereport]] [-raw] [<CommonParameters>]
+    sift [[-filepath] <String[]>] [[-filereport]] [-raw] [<CommonParameters>]
 
-    sift.ps1 [[-email] <String[]>] [[-emailvalidate]] [[-emailverify]] [-raw]
+    sift [[-email] <String[]>] [[-emailvalidate]] [[-emailverify]] [-raw]
     [<CommonParameters>]
 
-    sift.ps1 [[-html] <String[]>] [[-htmlclean]] [-raw] [<CommonParameters>]
+    sift [[-html] <String[]>] [[-htmlclean]] [-raw] [<CommonParameters>]
 
-    sift.ps1 [[-addkey]] [[-neutrino]] [[-virustotal]] [[-ipstack]] [[-urlscanio]]
+    sift [[-addkey]] [[-neutrino]] [[-virustotal]] [[-ipstack]] [[-urlscanio]]
     [[-shodan]] [[-hetrix]] [[-fraudguard]] [[-mxtoolbox]] [-raw] [<CommonParameters>]
 
-    sift.ps1 [[-pwned]] [-raw] [<CommonParameters>]
+    sift [[-pwned]] [-raw] [<CommonParameters>]
 
-    sift.ps1 [[-unlock]] [-raw] [<CommonParameters>]
+    sift [[-unlock]] [-raw] [<CommonParameters>]
 
-    sift.ps1 [[-phone]] [[-phonevalidate]] [-raw] [<CommonParameters>]
+    sift [[-phone]] [[-phonevalidate]] [-raw] [<CommonParameters>]
 
 
 DESCRIPTION
@@ -72,6 +72,8 @@ REMARKS
 INSTALL   
 
     1. Download, Unzip, Add to Path in Powershell User Profile.
-    2. get-help sift -examples   
+    2. get-help sift -examples
+
+
 
 
