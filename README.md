@@ -72,7 +72,6 @@ REMARKS
 INSTALL   
 
     1. Download, Unzip, Add to Path in Powershell User Profile.
-    2. get-help sift -examples
 
 
 
