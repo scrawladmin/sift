@@ -34,9 +34,9 @@ SYNTAX
 
     sift [[-pwned]] [-raw] [<CommonParameters>]
 
-    sift [[-unlock]] [-raw] [<CommonParameters>]
+    sift [[-phone] <Int64>] [[-phonevalidate]] [-raw] [<CommonParameters>]
 
-    sift [[-phone]] [[-phonevalidate]] [-raw] [<CommonParameters>]
+    sift [[-unlock]] [-raw] [<CommonParameters>]
 
 
 DESCRIPTION
@@ -72,7 +72,6 @@ REMARKS
 INSTALL   
 
     1. Download, Unzip, Add to Path in Powershell User Profile.
-
 
 
 
