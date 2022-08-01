@@ -506,7 +506,7 @@ Function Get-neuPhoneValidate {
     Write-Verbose "Function: $($MyInvocation.Mycommand)"
     if ($neutrinokeyuserid) {
         if ($neutrinokey) {
-            if ($html) {
+            if ($phone) {
                 $Info = [PSCustomObject]@{ 'user-id' = "$neutrinokeyuserid"; 'api-key' = "$neutrinokey"; number = "$phone" }
                 $params += $Info
                 if ($params) {
@@ -521,7 +521,7 @@ Function Get-neuPhoneValidate {
                         }
                         if ($response) {
                             $name = 'Neutrino' | Trace-word -words 'Neutrino'
-                            $response.Content
+                            $response.Content | ConvertFrom-Json
                         }
                     }
                 }
