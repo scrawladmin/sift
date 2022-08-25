@@ -28,7 +28,7 @@ Function Get-ippulse {
                 $t = $response.Content | ConvertFrom-Json
                 $apiname | Trace-word -words 'OTX'
                 if ([switch]$raw) {
-                    $res
+                    $t
                 }
                 Else {
                     If ($t.reputation) {
@@ -93,7 +93,7 @@ Function Get-fqdnpulse {
                 $t = $response.Content | ConvertFrom-Json
                 $apiname | Trace-word -words 'OTX'
                 if ([switch]$raw) {
-                    $res
+                    $t
                 }
                 Else {
                     # If ($t.reputation) {

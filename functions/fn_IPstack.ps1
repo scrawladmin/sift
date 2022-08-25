@@ -29,7 +29,7 @@ Function Get-ipstack {
                     $t = $response.Content | ConvertFrom-Json
                     $name = 'IPStack' | Trace-word -words 'IPStack'
                     if ([switch]$raw) {
-                        $res
+                        $t
                     }
                     Else {
                         $properties = ($t | Get-Member -MemberType Properties).Name

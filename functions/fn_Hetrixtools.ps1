@@ -30,7 +30,7 @@ Function Get-hetrixIPblacklist {
                     $t = $response.Content | ConvertFrom-Json
                     $name = 'HETRIXTOOLS' | Trace-word -words 'HETRIXTOOLS'
                     if ([switch]$raw) {
-                        $res
+                        $t
                     }
                     Else {
                         $properties = ($t | Get-Member -MemberType Properties).Name
@@ -99,7 +99,7 @@ Function Get-hetrixDomainblacklist {
                     $t = $response.Content | ConvertFrom-Json
                     $apiname | Trace-word -words 'HETRIXTOOLS'
                     if ([switch]$raw) {
-                        $res
+                        $t
                     }
                     Else {
                         $properties = ($t | Get-Member -MemberType Properties).Name
