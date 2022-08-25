@@ -38,7 +38,7 @@ Function Get-WhoIs {
         Try {
             $r = Invoke-Restmethod $url -Headers $header -ErrorAction stop
             # Write-Verbose ($r.net | Out-String)
-            # $city = (Invoke-RestMethod $r.net.orgRef.'#text').org.city
+            $city = (Invoke-RestMethod $r.net.orgRef.'#text').org.city
         }
         Catch {
             $errMsg = "Sorry. There was an error retrieving WhoIs information for $IPAddress. $($_.exception.message)"
