@@ -633,7 +633,10 @@ function Read-APIKey {
                 $Rfc2898Deriver = New-Object System.Security.Cryptography.Rfc2898DeriveBytes -ArgumentList $Credentials.GetNetworkCredential().Password, $SaltBytes
                 $KeyBytes = $Rfc2898Deriver.GetBytes(32)
 
-                $SecString = ConvertTo-SecureString -key $KeyBytes $ConfigFileContent
+                $SecString = ConvertTo-SecureString -key $KeyBytes $ConfigFileContent -ErrorAction SilentlyContinue
+                If (!$?) {
+                    Write-Error "Masterpassword incorrect. Restart powershell and try again." -ErrorAction Stop
+                }
 
                 # Decrypt the secure string.
                 $SecureStringToBSTR = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($SecString)
