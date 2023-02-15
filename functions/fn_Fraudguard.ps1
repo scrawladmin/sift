@@ -40,7 +40,7 @@ Function Get-fraudguardiprep {
             }
         }
         Catch {
-            Write-debug "$($_.Exception.Message)"
+            Write-warning "$($_.Exception.Message)"
             return
         }
         if ($response) {
