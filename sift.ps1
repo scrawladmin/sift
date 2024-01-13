@@ -4,11 +4,9 @@
 .DESCRIPTION
 
 .PARAMETER unlock
-    sift -unlock
     uses masterpassword to unlock encrypted keys and cache for use till terminal exits
 .PARAMETER addkey 
-    sift -addkey -neutrino
-    adds neutrino api key with masterpassword used as salt to encrypted file to store
+    adds api key with masterpassword used as salt to encrypted file to store
 .PARAMETER ipaddress
     IPv4 Address in Decimal
 .PARAMETER fqdn
@@ -20,6 +18,11 @@
     https://bit.ly/somesketchurl
 .PARAMETER filepath
     C:\path\to\file.pdf
+.EXAMPLE
+    sift -addkey -neutrino
+    sift -addkey -virustotal
+.EXAMPLE
+    sift -unlock
 .EXAMPLE
     sift -ipaddress 8.8.8.8 -ipservices
 .EXAMPLE
@@ -74,6 +77,10 @@ Param(
     [switch]
     $pwned,
 
+    [Parameter(ParameterSetName = "phone", Position = 0)]
+    [int64]
+    $phone,
+
     [Parameter(ParameterSetName = "set_key", Position = 1)]
     [switch]
     $neutrino,
@@ -105,6 +112,10 @@ Param(
     [Parameter(ParameterSetName = "set_key", Position = 1)]
     [switch]
     $mxtoolbox,
+    
+    [Parameter(ParameterSetName = "set_key", Position = 1)]
+    [switch]
+    $urlhaus,
 
     [Parameter(ParameterSetName = "unlock_keys", Position = 1)]
     [switch]
@@ -143,10 +154,6 @@ Param(
     [Parameter(ParameterSetName = "html", Position = 1)]
     [switch]
     $htmlclean,
-
-    [Parameter(ParameterSetName = "phone", Position = 1)]
-    [switch]
-    $phone,
 
     [Parameter(ParameterSetName = "mtr", Position = 1)]
     [switch]
@@ -187,6 +194,10 @@ Param(
     [Parameter(ParameterSetName = "ipaddress", Position = 1)]
     [switch]
     $iprep,
+
+    [Parameter(ParameterSetName = "fqdn", Position = 1)]
+    [switch]
+    $hostnamerep,
 
     [Parameter(ParameterSetName = "ipaddress", Position = 1)]
     [switch]
@@ -235,6 +246,10 @@ Param(
     [Parameter(ParameterSetName = "url", Position = 1)]
     [switch]
     $urlquery,
+
+    [Parameter(ParameterSetName = "url", Position = 1)]
+    [switch]
+    $urlsubmit,
 
     [Parameter(ParameterSetName = "ipaddress", Position = 1)]
     [switch]
