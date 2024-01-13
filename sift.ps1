@@ -1,12 +1,14 @@
 <#
 .SYNOPSIS
     A collection of PowerShell scripts to utilize 3rd party APIs and research IPs, URLs, and Domains
-.DESCRIPTION
-
+.FUNCTIONALITY
+    Add API keys with addkey param for each provider listed on README
+    Use Same MasterPassword for each. 
+    Restart PowerShell and use unlock param using MasterPassword
 .PARAMETER unlock
     uses masterpassword to unlock encrypted keys and cache for use till terminal exits
 .PARAMETER addkey 
-    adds api key with masterpassword used as salt to encrypted file to store
+    adds neutrino api key with masterpassword used as salt to encrypted file to store
 .PARAMETER ipaddress
     IPv4 Address in Decimal
 .PARAMETER fqdn
@@ -19,10 +21,10 @@
 .PARAMETER filepath
     C:\path\to\file.pdf
 .EXAMPLE
+    sift -unlock
+.EXAMPLE
     sift -addkey -neutrino
     sift -addkey -virustotal
-.EXAMPLE
-    sift -unlock
 .EXAMPLE
     sift -ipaddress 8.8.8.8 -ipservices
 .EXAMPLE
@@ -76,10 +78,6 @@ Param(
     [Parameter(ParameterSetName = "pwned", Position = 0)]
     [switch]
     $pwned,
-
-    [Parameter(ParameterSetName = "phone", Position = 0)]
-    [int64]
-    $phone,
 
     [Parameter(ParameterSetName = "set_key", Position = 1)]
     [switch]
@@ -150,6 +148,10 @@ Param(
     [Parameter(ParameterSetName = "html", Position = 1)]
     [switch]
     $htmlclean,
+
+    [Parameter(ParameterSetName = "phone", Position = 1)]
+    [switch]
+    $phone,
 
     [Parameter(ParameterSetName = "mtr", Position = 1)]
     [switch]
