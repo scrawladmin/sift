@@ -8,7 +8,7 @@
 .PARAMETER unlock
     uses masterpassword to unlock encrypted keys and cache for use till terminal exits
 .PARAMETER addkey 
-    adds neutrino api key with masterpassword used as salt to encrypted file to store
+    adds api key with masterpassword used as salt to encrypted file to store
 .PARAMETER ipaddress
     IPv4 Address in Decimal
 .PARAMETER fqdn
@@ -21,10 +21,10 @@
 .PARAMETER filepath
     C:\path\to\file.pdf
 .EXAMPLE
-    sift -unlock
-.EXAMPLE
     sift -addkey -neutrino
     sift -addkey -virustotal
+.EXAMPLE
+    sift -unlock
 .EXAMPLE
     sift -ipaddress 8.8.8.8 -ipservices
 .EXAMPLE
