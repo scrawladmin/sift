@@ -112,10 +112,6 @@ Param(
     [Parameter(ParameterSetName = "set_key", Position = 1)]
     [switch]
     $mxtoolbox,
-    
-    [Parameter(ParameterSetName = "set_key", Position = 1)]
-    [switch]
-    $urlhaus,
 
     [Parameter(ParameterSetName = "unlock_keys", Position = 1)]
     [switch]
@@ -195,10 +191,6 @@ Param(
     [switch]
     $iprep,
 
-    [Parameter(ParameterSetName = "fqdn", Position = 1)]
-    [switch]
-    $hostnamerep,
-
     [Parameter(ParameterSetName = "ipaddress", Position = 1)]
     [switch]
     $ipservices,
@@ -246,10 +238,6 @@ Param(
     [Parameter(ParameterSetName = "url", Position = 1)]
     [switch]
     $urlquery,
-
-    [Parameter(ParameterSetName = "url", Position = 1)]
-    [switch]
-    $urlsubmit,
 
     [Parameter(ParameterSetName = "ipaddress", Position = 1)]
     [switch]
