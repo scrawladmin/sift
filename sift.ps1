@@ -21,10 +21,10 @@
 .PARAMETER filepath
     C:\path\to\file.pdf
 .EXAMPLE
+    sift -unlock
+.EXAMPLE
     sift -addkey -neutrino
     sift -addkey -virustotal
-.EXAMPLE
-    sift -unlock
 .EXAMPLE
     sift -ipaddress 8.8.8.8 -ipservices
 .EXAMPLE
@@ -79,6 +79,10 @@ Param(
     [switch]
     $pwned,
 
+    [Parameter(ParameterSetName = "phone", Position = 0)]
+    [int64]
+    $phone,
+
     [Parameter(ParameterSetName = "set_key", Position = 1)]
     [switch]
     $neutrino,
@@ -110,6 +114,14 @@ Param(
     [Parameter(ParameterSetName = "set_key", Position = 1)]
     [switch]
     $mxtoolbox,
+    
+    [Parameter(ParameterSetName = "set_key", Position = 1)]
+    [switch]
+    $urlhaus,
+
+    [Parameter(ParameterSetName = "set_key", Position = 1)]
+    [switch]
+    $whoapi,
 
     [Parameter(ParameterSetName = "unlock_keys", Position = 1)]
     [switch]
@@ -148,10 +160,6 @@ Param(
     [Parameter(ParameterSetName = "html", Position = 1)]
     [switch]
     $htmlclean,
-
-    [Parameter(ParameterSetName = "phone", Position = 1)]
-    [switch]
-    $phone,
 
     [Parameter(ParameterSetName = "mtr", Position = 1)]
     [switch]
@@ -193,6 +201,10 @@ Param(
     [switch]
     $iprep,
 
+    [Parameter(ParameterSetName = "fqdn", Position = 1)]
+    [switch]
+    $hostnamerep,
+
     [Parameter(ParameterSetName = "ipaddress", Position = 1)]
     [switch]
     $ipservices,
@@ -208,6 +220,10 @@ Param(
     [Parameter(ParameterSetName = "fqdn", Position = 1)]
     [switch]
     $dns,
+
+    [Parameter(ParameterSetName = "fqdn", Position = 1)]
+    [switch]
+    $whoisapi,
 
     [Parameter(ParameterSetName = "fqdn", Position = 1)]
     [switch]
@@ -233,6 +249,10 @@ Param(
     [switch]
     $ipblacklist,
 
+    [Parameter(ParameterSetName = "ipaddress", Position = 1)]
+    [switch]
+    $whoblacklist,
+
     [Parameter(ParameterSetName = "fqdn", Position = 1)]
     [switch]
     $fqdnblacklist,
@@ -240,6 +260,10 @@ Param(
     [Parameter(ParameterSetName = "url", Position = 1)]
     [switch]
     $urlquery,
+
+    [Parameter(ParameterSetName = "url", Position = 1)]
+    [switch]
+    $urlsubmit,
 
     [Parameter(ParameterSetName = "ipaddress", Position = 1)]
     [switch]
@@ -252,6 +276,14 @@ Param(
     [Parameter(ParameterSetName = "phone", Position = 0)]
     [switch]
     $phonevalidate,
+
+    [Parameter(ParameterSetName = "fqdn", Position = 0)]
+    [switch]
+    $domainscore,
+
+    [Parameter(ParameterSetName = "fqdn", Position = 0)]
+    [switch]
+    $domainscorecheck,
 
     [switch]
     $raw
