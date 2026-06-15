@@ -43,6 +43,10 @@ Function New-Request {
         [string]$ipaddress = $ipaddress
         Get-whois $ipaddress
     }
+    If ([switch]$whoisapi) {
+        [string]$fqdn = $object
+        Get-whoapi $fqdn
+    }
     If ([switch]$ipreport) {
         [string]$ipaddress = $ipaddress
         Get-VTIPReport $ipaddress
@@ -59,6 +63,14 @@ Function New-Request {
         [string]$fqdn = $object
         Get-VTDomainReport $fqdn
     }
+    If ([switch]$domainscore) {
+        [string]$fqdn = $object
+        Get-domainscore $fqdn
+    }
+        If ([switch]$domainscorecheck) {
+        [string]$fqdn = $object
+        Get-domainscorecheck $fqdn
+    }
     If ([switch]$iplookup) {
         Get-ipstack $object
     }
@@ -67,6 +79,9 @@ Function New-Request {
     }
     If ([switch]$iprep) {
         Get-fraudguardiprep $object
+    }
+    If ([switch]$hostnamerep) {
+        Get-fraudguardhostnamerep $object
     }
     If ([switch]$ipservices) {
         [string]$ipaddress = $ipaddress
@@ -108,11 +123,18 @@ Function New-Request {
         [string]$ipaddress = $ipaddress
         Get-hetrixIPblacklist $ipaddress
     }
+    If ([switch]$whoblacklist) {
+        [string]$ipaddress = $ipaddress
+        Get-whoblacklist $ipaddress
+    }
     If ([switch]$fqdnblacklist) {
         Get-hetrixDomainblacklist $object
     }
     If ([switch]$urlquery) {
         Get-URLhausQuery $object
+    }
+    If ([switch]$urlsubmit) {
+        Get-URLhausSubmit $object
     }
     If ([switch]$phonevalidate) {
         Get-neuPhoneValidate $object
@@ -136,7 +158,7 @@ Function Get-Logo {
    /        \|  ||  |   |  |  
   /_______  /|__||__|   |__|  
           \/                  
-" -F C
+" -F $(Get-Random 'Gray','Blue','Green','Cyan','Red','Magenta','Yellow','White')
 }
 Function Set-Console {
     Write-Verbose "Function: $($MyInvocation.Mycommand)"
@@ -591,6 +613,12 @@ function Set-APIKey {
         if ([switch]$mxtoolbox ) {
             $FolderName = "MXtoolbox"
         }
+        if ([switch]$urlhaus ) {
+            $FolderName = "URLhaus"
+        }
+        if ([switch]$whoapi ) {
+            $FolderName = "WhoAPI"
+        }
         $ConfigName = 'api.key'
         $saltname = 'salt.rnd'
         
@@ -617,7 +645,7 @@ function Read-APIKey {
 
     # Test if configuration file exists.
     if ([switch]$unlock ) {
-        $FolderNames = "neutrino", "MXtoolbox", "VirusTotal", "IPstack", "Urlscanio", "Shodan", "Hetrixtools", "Fraudguard"
+        $FolderNames = "neutrino", "MXtoolbox", "VirusTotal", "IPstack", "Urlscanio", "Shodan", "Hetrixtools", "Fraudguard", "URLhaus", "WhoAPI"
         foreach ($foldername in $FolderNames) {
             if ((Test-Path "$($env:AppData)\$FolderName\api.key")) {
 
