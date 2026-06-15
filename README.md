@@ -57,7 +57,7 @@ https://ipstack.com/api-key
 https://haveibeenpwned.com/API/v2   
 https://whois.arin.net/   
 https://urlhaus.abuse.ch/api/   
-
+https://whoapi.com/api-documentation/  
 
 
 REMARKS
