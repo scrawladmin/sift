@@ -26,7 +26,8 @@ Function Get-ippulse {
             }
             if ($response) {
                 $t = $response.Content | ConvertFrom-Json
-                $apiname | Trace-word -words 'OTX'
+                $apiname | Select-ColorString "OTX" -CaseSensitive -BackgroundColor $(Get-Random 'Gray','Blue','Green','Cyan','Red','Magenta','Yellow','White')
+                # $apiname = 'OTX' | Trace-word -words 'OTX'
                 if ([switch]$raw) {
                     $t
                 }
@@ -91,7 +92,8 @@ Function Get-fqdnpulse {
             }
             if ($response) {
                 $t = $response.Content | ConvertFrom-Json
-                $apiname | Trace-word -words 'OTX'
+                $apiname | Select-ColorString "OTX" -CaseSensitive -BackgroundColor $(Get-Random 'Gray','Blue','Green','Cyan','Red','Magenta','Yellow','White')
+                # $apiname = 'OTX' | Trace-word -words 'OTX'
                 if ([switch]$raw) {
                     $t
                 }

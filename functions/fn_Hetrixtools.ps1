@@ -13,6 +13,7 @@ Function Get-hetrixIPblacklist {
     )
     Begin {
         Write-Verbose "Function: $($MyInvocation.Mycommand)"
+        $name = 'HETRIXTOOLS'
     }
     Process {
         if ($Hetrixtoolskey) {
@@ -27,8 +28,9 @@ Function Get-hetrixIPblacklist {
                     return
                 }
                 if ($response) {
+                    $name | Select-ColorString "HETRIXTOOLS" -CaseSensitive -BackgroundColor $(Get-Random 'Gray','Blue','Green','Cyan','Red','Magenta','Yellow','White')
+                    # $name = 'HETRIXTOOLS' | Trace-word -words 'HETRIXTOOLS'
                     $t = $response.Content | ConvertFrom-Json
-                    $name = 'HETRIXTOOLS' | Trace-word -words 'HETRIXTOOLS'
                     if ([switch]$raw) {
                         $t
                     }
@@ -82,7 +84,7 @@ Function Get-hetrixDomainblacklist {
     )
     begin {
         Write-Verbose "Function: $($MyInvocation.Mycommand)"
-        $apiname = 'HETRIXTOOLS'
+        $name = 'HETRIXTOOLS'
     }
     Process {
         if ($Hetrixtoolskey) {
@@ -96,8 +98,9 @@ Function Get-hetrixDomainblacklist {
                     return
                 }
                 if ($response) {
+                    $name | Select-ColorString "HETRIXTOOLS" -CaseSensitive -BackgroundColor $(Get-Random 'Gray','Blue','Green','Cyan','Red','Magenta','Yellow','White')
+                    # $name = 'HETRIXTOOLS' | Trace-word -words 'HETRIXTOOLS'
                     $t = $response.Content | ConvertFrom-Json
-                    $apiname | Trace-word -words 'HETRIXTOOLS'
                     if ([switch]$raw) {
                         $t
                     }

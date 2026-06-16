@@ -13,6 +13,7 @@ Function Get-ipstack {
     )
     begin {
         Write-Verbose "Function: $($MyInvocation.Mycommand)"
+        $name = 'IPStack'
     }
     Process {
         if ($ipaddress) {
@@ -27,7 +28,8 @@ Function Get-ipstack {
                 }
                 if ($response) {
                     $t = $response.Content | ConvertFrom-Json
-                    $name = 'IPStack' | Trace-word -words 'IPStack'
+                    $name | Select-ColorString "IPStack" -CaseSensitive -BackgroundColor $(Get-Random 'Gray','Blue','Green','Cyan','Red','Magenta','Yellow','White')
+                    # $name = 'IPStack' | Trace-word -words 'IPStack'
                     if ([switch]$raw) {
                         $t
                     }

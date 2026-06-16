@@ -34,9 +34,9 @@ SYNTAX
 
     sift [[-pwned]] [-raw] [<CommonParameters>]
 
-    sift [[-phone] <Int64>] [[-phonevalidate]] [-raw] [<CommonParameters>]
-
     sift [[-unlock]] [-raw] [<CommonParameters>]
+
+    sift [[-phone]] [[-phonevalidate]] [-raw] [<CommonParameters>]
 
 
 DESCRIPTION
@@ -57,7 +57,8 @@ https://ipstack.com/api-key
 https://haveibeenpwned.com/API/v2   
 https://whois.arin.net/   
 https://urlhaus.abuse.ch/api/   
-https://whoapi.com/api-documentation/  
+https://whoapi.com/api-documentation/   
+
 
 
 REMARKS
@@ -72,6 +73,7 @@ REMARKS
 INSTALL   
 
     1. Download, Unzip, Add to Path in Powershell User Profile.
+
 
 
 
