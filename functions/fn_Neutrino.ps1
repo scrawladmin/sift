@@ -220,6 +220,7 @@ Function Get-neuHostRep {
                                 $response = $response.Content | ConvertFrom-Json
                                 if ($response.lists) {
                                     $lists = $response.lists
+                                    $listarray = @()
                                     if ([switch]$raw) {
                                         $response | Format-List 
                                     }
@@ -230,11 +231,13 @@ Function Get-neuHostRep {
                                             }
                                             Else {
                                                 $i++
+                                                $listarray += $list
                                                 # Write-Information "$($list.'list-name')  Host not listed" -InformationAction Continue
                                             }
                                         }
                                         If ($i) {
                                             Write-Information "  Host not listed on $i lists" -InformationAction Continue
+                                            $listarray
                                         }
                                     }
                                 } 
