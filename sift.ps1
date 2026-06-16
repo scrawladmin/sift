@@ -273,9 +273,9 @@ Param(
     [switch]
     $fqdnpulse,
 
-    [Parameter(ParameterSetName = "phone", Position = 0)]
-    [switch]
-    $phonevalidate,
+    # [Parameter(ParameterSetName = "phone", Position = 0)]
+    # [switch]
+    # $phonevalidate,
 
     [Parameter(ParameterSetName = "fqdn", Position = 0)]
     [switch]
