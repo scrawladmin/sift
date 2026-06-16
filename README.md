@@ -35,8 +35,7 @@ SYNTAX
     sift [[-pwned]] [-raw] [<CommonParameters>]
 
     sift [[-unlock]] [-raw] [<CommonParameters>]
-
-    sift [[-phone]] [[-phonevalidate]] [-raw] [<CommonParameters>]
+    
 
 
 DESCRIPTION
