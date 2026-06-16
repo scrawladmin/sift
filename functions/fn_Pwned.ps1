@@ -32,7 +32,8 @@ Function Test-Pwned {
             return
         }
         if ($response) {
-            $name = 'haveibeenpwned' | Trace-word -words 'haveibeenpwned'
+            $apiname = 'haveibeenpwned' | Select-ColorString "haveibeenpwned" -CaseSensitive -BackgroundColor $(Get-Random 'Gray','Blue','Green','Cyan','Red','Magenta','Yellow','White')
+            # $apiname = 'haveibeenpwned' | Trace-word -words 'haveibeenpwned'
             Add-Content -Path datasets.temp -Value $response -Force
             $d = "datasets.temp"
             $results = @()

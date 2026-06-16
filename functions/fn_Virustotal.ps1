@@ -49,6 +49,7 @@ function Get-VTFileReport {
         [Switch]$ProxyUseDefaultCredentials
     )
     Begin {
+        $apiname = 'VirusTotal'
         $URI = 'https://www.virustotal.com/vtapi/v2/file/report'
         if (!($APIKey)) {
             NoAPIKeyError
@@ -163,6 +164,7 @@ function Get-VTIPReport {
     )
 
     Begin {
+        $apiname = 'VirusTotal'
         $URI = 'https://www.virustotal.com/vtapi/v2/ip-address/report'
         if (!($APIKey)) {
             NoAPIKeyError
@@ -218,7 +220,8 @@ function Get-VTIPReport {
 
         $IPReport.pstypenames.insert(0, 'VirusTotal.IP.Report')
         # $IPReport
-        $name = 'VirusTotal' | Trace-word -words 'VirusTotal'
+        $apiname | Select-ColorString "VirusTotal" -CaseSensitive -BackgroundColor $(Get-Random 'Gray','Blue','Green','Cyan','Red','Magenta','Yellow','White')
+        # $apiname = 'VirusTotal' | Trace-word -words 'VirusTotal'
         [hashtable]$table = @{
             PSTypeName = "VirusTotal"
         }
@@ -358,6 +361,7 @@ function Get-VTDomainReport {
     )
 
     Begin {
+        $apiname = 'VirusTotal'
         $URI = 'https://www.virustotal.com/vtapi/v2/domain/report'
         if (!($APIKey)) {
             NoAPIKeyError
@@ -411,7 +415,8 @@ function Get-VTDomainReport {
             }
         }
         $DomainReport.pstypenames.insert(0, 'VirusTotal.Domain.Report')
-        $name = 'VirusTotal' | Trace-word -words 'VirusTotal'
+        $apiname | Select-ColorString "VirusTotal" -CaseSensitive -BackgroundColor $(Get-Random 'Gray','Blue','Green','Cyan','Red','Magenta','Yellow','White')
+        # $apiname = 'VirusTotal' | Trace-word -words 'VirusTotal'
         [hashtable]$table = @{
             PSTypeName = "VirusTotal"
         }
@@ -546,6 +551,7 @@ function Get-VTURLReport {
 
     Begin {
         Write-Verbose "Function: $($MyInvocation.Mycommand)"
+        $apiname = 'VirusTotal'
         $URI = 'https://www.virustotal.com/vtapi/v2/url/report'
         
         if ($Scan) {
@@ -608,7 +614,8 @@ function Get-VTURLReport {
                 throw $RESTError
             }
         }
-        $name = 'VirusTotal' | Trace-word -words 'VirusTotal'
+        $apiname | Select-ColorString "VirusTotal" -CaseSensitive -BackgroundColor $(Get-Random 'Gray','Blue','Green','Cyan','Red','Magenta','Yellow','White')
+        # $apiname = 'VirusTotal' | Trace-word -words 'VirusTotal'
         foreach ($URLReport in $ReportResult) {
             $URLReport.pstypenames.insert(0, 'VirusTotal.URL.Report')
             # $URLReport

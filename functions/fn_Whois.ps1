@@ -26,6 +26,7 @@ Function Get-WhoIs {
 
     Begin {
         Write-Verbose "Starting $($MyInvocation.Mycommand)"
+        $apiname = 'WHOIS'
         $baseURL = 'http://whois.arin.net/rest'
         #default is XML anyway
         $header = @{"Accept" = "application/xml" }
@@ -71,7 +72,8 @@ Function Get-WhoIs {
             If ($moreinfo.comment.line) {
                 $comment = $($moreinfo.comment.line."#text")             
             }
-            $name = 'WHOIS' | Trace-word -words 'WHOIS'
+            $apiname | Select-ColorString "WHOIS" -CaseSensitive -BackgroundColor $(Get-Random 'Gray','Blue','Green','Cyan','Red','Magenta','Yellow','White')
+            # $apiname = 'WHOIS' | Trace-word -words 'WHOIS'
             $results += $result
             $results += $streetsddress
             $results += $moreinfo

@@ -98,7 +98,8 @@ Function Get-MxLookup {
         $results = Invoke-RestMethod -Method GET -Uri $URL -Header $hdrs
     }
     end {
-        $name = 'MXToolbox' | Trace-word -words 'MXToolbox'
+        $name = 'MXToolbox' | Select-ColorString "MXToolbox" -CaseSensitive -BackgroundColor $(Get-Random 'Gray','Blue','Green','Cyan','Red','Magenta','Yellow','White')
+        # $name = 'MXToolbox' | Trace-word -words 'MXToolbox'
         #return $results
         if ([switch]$dns) { 
             $results.Transcript

@@ -11,6 +11,7 @@ Function Get-urlscanio {
     )
     Begin {
         Write-verbose "Function: $($MyInvocation.Mycommand)"
+        $apiname = 'URLscan.io'
         if ($Urlscaniokey) {
             if ($url) {
                 $Info = @{ 
@@ -43,7 +44,8 @@ Function Get-urlscanio {
                     $response
                 }
                 else {
-                    $name = 'URLscan.io' | Trace-word -words 'URLscan.io'
+                    $apiname | Select-ColorString "URLscan.io" -CaseSensitive -BackgroundColor $(Get-Random 'Gray','Blue','Green','Cyan','Red','Magenta','Yellow','White')
+                    # $apiname = 'URLscan.io' | Trace-word -words 'URLscan.io'
                     $t = $response.Content | ConvertFrom-Json
                     $properties = ($t | Get-Member -MemberType Properties).Name
                     [hashtable]$table = @{

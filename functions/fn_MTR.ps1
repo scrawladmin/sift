@@ -342,7 +342,8 @@ Function Start-mtr {
       . Get-PerHopRTT
     }
   }
-  $name = 'MTR' | Trace-word -words 'MTR'
+  $name = 'MTR' | Select-ColorString "MTR" -CaseSensitive -BackgroundColor $(Get-Random 'Gray','Blue','Green','Cyan','Red','Magenta','Yellow','White')
+  # $name = 'MTR' | Trace-word -words 'MTR'
   . Show-MTRResults
   Write-Verbose "MTR Runtime: $runtime"
 }

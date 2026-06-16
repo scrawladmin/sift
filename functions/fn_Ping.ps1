@@ -56,6 +56,7 @@ Function Ping-Flood {
     }
     End {
         Submit-Ping
+        Write-Verbose "Exiting $($MyInvocation.Mycommand)"
     }
 }
 Function Submit-Ping {
