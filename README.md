@@ -1,11 +1,15 @@
 NAME
+    
     sift
 
 SYNOPSIS
+    
     A collection of PowerShell scripts to utilize 3rd party APIs and research IPs, URLs, and Domains
 
 
 SYNTAX
+    
+
     sift [[-ipaddress] <IPAddress[]>] [[-ipblocklist]] [[-ipprobe]] [[-hostrep]] [[-ipinfo]] [[-ping]]
     [[-whois]] [[-ipreport]] [[-iplookup]] [[-iprep]] [[-ipservices]] [[-ptr]] [[-ipblacklist]] [[-whoblacklist]] [[-ippulse]] [-raw]
     [<CommonParameters>]
@@ -31,6 +35,7 @@ SYNTAX
     sift [[-pwned]] [-raw] [<CommonParameters>]
 
     sift [[-unlock]] [-raw] [<CommonParameters>]
+    
 
 
 DESCRIPTION
