@@ -23,7 +23,7 @@ Function Connect-MXOnline () {
     process {
         try {
             $results = Invoke-RestMethod -Method GET -Uri $URL -Header $hdrs
-            $MXAPIKey = $MXAPI_key
+            $script:MXAPIKey = $MXAPI_key
             Write-Host -BackgroundColor Green -ForegroundColor Black "Successfully connected to MxToolBox"
             Write-Host -BackgroundColor Green -ForegroundColor Black "Stats: DnsRequests = $($results.DnsRequests); DnsMax = $($results.DnsMax)"
         }
