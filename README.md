@@ -37,12 +37,39 @@ SYNTAX
 
 DESCRIPTION
 
+![](https://github.com/scrawladmin/sift/blob/main/sift.gif)
 
 RELATED LINKS
-    https://github.com/scrawladmin/sift
+    
+https://www.neutrinoapi.com/   
+https://mxtoolbox.com/c/products/mxtoolboxapi   
+https://otx.alienvault.com/api   
+https://fraudguard.io/   
+https://developer.shodan.io/   
+https://www.virustotal.com/gui/my-apikey   
+https://docs.hetrixtools.com/api/v3/   
+https://urlscan.io/docs/api/   
+https://ipstack.com/api-key   
+https://haveibeenpwned.com/API/v2   
+https://whois.arin.net/   
+https://urlhaus.abuse.ch/api/   
+https://whoapi.com/api-documentation/   
+
+
 
 REMARKS
-    To see the examples, type: "Get-Help sift -Examples"
-    For more information, type: "Get-Help sift -Detailed"
-    For technical information, type: "Get-Help sift -Full"
-    For online help, type: "Get-Help sift -Online"
+    
+    To see the examples, type: "get-help sift -examples".
+    For more information, type: "get-help sift -detailed".
+    For technical information, type: "get-help sift -full".
+    For online help, type: "get-help sift -online"
+    
+   
+   
+INSTALL   
+
+    1. Download, Unzip, Add to Path in Powershell User Profile.
+
+
+
+
